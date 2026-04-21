@@ -45,22 +45,25 @@ const positions: Record<string, NodePosition> = {
   projects: { x: 520, y: 600 },
 };
 
-// Workflow node positions — clustered around related modules, offset to the
-// edges so they frame the module graph without overlapping it. Cards are
-// 220px wide × ~110px tall, so we leave ~150px of vertical gap per slot.
+// Workflow node positions — full flowchart cards are 460px wide × up to 580px
+// tall. Two right columns and one left column frame the module graph.
+// Right col A (financials-adjacent):  x = 1260
+// Right col B (staggered offset):     x = 1780
+// Left col  (cross-cutting):          x = -620
 const workflowPositions: Record<string, NodePosition> = {
-  "data-movement": { x: 1280, y: 40 },
-  "budget-revisions": { x: 1280, y: 200 },
-  approvals: { x: 1280, y: 360 },
-  "ipm-insights": { x: 1280, y: 520 },
-  "capital-financials": { x: 1280, y: 680 },
-  "security-priority": { x: -320, y: 40 },
-  "bt-wizard": { x: -320, y: 340 },
-  "getting-started": { x: -320, y: 640 },
+  "data-movement":      { x: 1260, y:    0 },
+  "budget-revisions":   { x: 1780, y:  320 },
+  approvals:            { x: 1260, y:  700 },
+  "ipm-insights":       { x: 1780, y: 1020 },
+  "capital-financials": { x: 1260, y: 1400 },
+  "security-priority":  { x: -620, y:    0 },
+  "bt-wizard":          { x: -620, y:  700 },
+  "getting-started":    { x: -620, y: 1400 },
 };
 
-// Which modules each workflow "touches" — drives the dashed affinity lines.
-// Cross-cutting flows (security, getting-started) intentionally draw no edges.
+// Which modules each workflow "touches" — used by the detail panel's
+// "Related Modules" list. No longer drives canvas edges (charts are
+// self-explanatory now that they render inline).
 const workflowModules: Record<string, string[]> = {
   "data-movement": ["financials"],
   "budget-revisions": ["financials"],
@@ -68,23 +71,6 @@ const workflowModules: Record<string, string[]> = {
   "ipm-insights": ["financials"],
   "capital-financials": ["capital", "financials"],
   "bt-wizard": ["workforce"],
-};
-
-// Side-specific handle pairing so workflow→module edges enter cleanly.
-const workflowEdgeRouting: Record<
-  string,
-  { sourceHandle: string; targetHandle: string }
-> = {
-  "data-movement-financials": { sourceHandle: "l-s", targetHandle: "r-t" },
-  "budget-revisions-financials": { sourceHandle: "l-s", targetHandle: "r-t" },
-  "approvals-financials": { sourceHandle: "l-s", targetHandle: "r-t" },
-  "ipm-insights-financials": { sourceHandle: "l-s", targetHandle: "r-t" },
-  "capital-financials-financials": {
-    sourceHandle: "l-s",
-    targetHandle: "r-t",
-  },
-  "capital-financials-capital": { sourceHandle: "l-s", targetHandle: "r-t" },
-  "bt-wizard-workforce": { sourceHandle: "r-s", targetHandle: "l-t" },
 };
 
 // Explicit handle routing for nicer edge paths
@@ -245,36 +231,7 @@ export function ModuleMap() {
       };
     });
 
-    // Dashed, unlabelled affinity lines from workflow → module.
-    const workflowEdges: Edge[] = [];
-    for (const f of flowData) {
-      const relatedIds = workflowModules[f.id] ?? [];
-      for (const moduleId of relatedIds) {
-        const m = getModuleById(moduleId);
-        const routing =
-          workflowEdgeRouting[`${f.id}-${moduleId}`] ?? {
-            sourceHandle: "l-s",
-            targetHandle: "r-t",
-          };
-        workflowEdges.push({
-          id: `wf-edge:${f.id}-${moduleId}`,
-          source: `wf:${f.id}`,
-          target: moduleId,
-          sourceHandle: routing.sourceHandle,
-          targetHandle: routing.targetHandle,
-          type: "default",
-          animated: false,
-          style: {
-            stroke: m?.color ?? "#8a8d98",
-            strokeWidth: 1,
-            strokeDasharray: "3 4",
-            opacity: 0.5,
-          },
-        });
-      }
-    }
-
-    return [...integrationEdges, ...workflowEdges];
+    return integrationEdges;
   }, []);
 
   const selectedModule: EpmModule | null = selectedModuleId
@@ -326,9 +283,6 @@ export function ModuleMap() {
 
   const onEdgeClick = useCallback<EdgeMouseHandler>(
     (_, edge) => {
-      // Only integration edges open a panel. Workflow affinity edges are
-      // non-interactive — their id is prefixed `wf-edge:`.
-      if (edge.id.startsWith("wf-edge:")) return;
       setSelectedModuleId(null);
       setSelectedWorkflowId(null);
       setSelectedIntegrationId(edge.id);

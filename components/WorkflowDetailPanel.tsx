@@ -1,7 +1,6 @@
 "use client";
 
 import { DetailPanel } from "./DetailPanel";
-import { FlowChart } from "./FlowChart";
 import type { Flow } from "@/lib/flows";
 import { getModuleById } from "@/lib/modules";
 
@@ -27,17 +26,13 @@ export function WorkflowDetailPanel({
       accentColor={accentColor ?? "#8a8d98"}
       subtitle="Workflow"
       title={flow?.title ?? ""}
-      className="sm:w-[560px]"
+      className="sm:w-[420px]"
     >
       {flow && (
         <>
           <p className="text-sm text-[var(--text-muted)] leading-relaxed">
             {flow.caption}
           </p>
-
-          <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-2)]/30 p-4 overflow-auto">
-            <FlowChart chart={flow.mermaid} />
-          </div>
 
           <section className="rounded-md border border-[var(--border)] bg-[var(--surface-2)]/40 p-3">
             <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-subtle)] mb-1">
