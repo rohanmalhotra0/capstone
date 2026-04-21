@@ -46,17 +46,17 @@ export function FlowChart({ chart, className, scale = 1 }: FlowChartProps) {
                 clusterBorder: "#c9c4b6",
               }
             : {
-                primaryColor: "#191a1f",
+                primaryColor: "#262a35",
                 primaryTextColor: "#ededef",
-                primaryBorderColor: "#32343c",
+                primaryBorderColor: "#4a4e60",
                 lineColor: "#9a9ba3",
-                secondaryColor: "#131316",
-                tertiaryColor: "#0a0a0b",
+                secondaryColor: "#1a1d24",
+                tertiaryColor: "#13151b",
                 background: "#0a0a0b",
-                mainBkg: "#191a1f",
+                mainBkg: "#262a35",
                 nodeTextColor: "#ededef",
-                clusterBkg: "#131316",
-                clusterBorder: "#32343c",
+                clusterBkg: "#1a1d24",
+                clusterBorder: "#4a4e60",
               },
         });
 
