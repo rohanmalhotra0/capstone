@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MessageSquare, X, Send, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type ChatRole = "user" | "assistant";
 type Message = { id: string; role: ChatRole; content: string };
@@ -348,13 +350,47 @@ function MessageBubble({
     >
       <div
         className={cn(
-          "max-w-[85%] rounded-lg px-3 py-2 text-[13px] leading-relaxed whitespace-pre-wrap",
+          "max-w-[85%] rounded-lg px-3 py-2 text-[13px] leading-relaxed",
           isUser
-            ? "bg-[var(--primary)] text-white"
+            ? "bg-[var(--primary)] text-white whitespace-pre-wrap"
             : "bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]",
         )}
       >
-        {content || (
+        {isUser ? (
+          content || <span className="text-[var(--text-subtle)]">…</span>
+        ) : content ? (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+              ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-0.5">{children}</ul>,
+              ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-0.5">{children}</ol>,
+              li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+              strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+              em: ({ children }) => <em className="italic">{children}</em>,
+              code: ({ children, className }) => {
+                const isBlock = className?.includes("language-");
+                return isBlock ? (
+                  <code className="block bg-[var(--surface-1)] border border-[var(--border)] rounded p-2 text-[12px] font-mono overflow-x-auto my-2">{children}</code>
+                ) : (
+                  <code className="bg-[var(--surface-1)] border border-[var(--border)] rounded px-1 text-[12px] font-mono">{children}</code>
+                );
+              },
+              pre: ({ children }) => <pre className="my-2">{children}</pre>,
+              h1: ({ children }) => <h1 className="font-semibold text-[15px] mt-3 mb-1">{children}</h1>,
+              h2: ({ children }) => <h2 className="font-semibold text-[14px] mt-3 mb-1">{children}</h2>,
+              h3: ({ children }) => <h3 className="font-semibold mt-2 mb-1">{children}</h3>,
+              a: ({ href, children }) => (
+                <a href={href} target="_blank" rel="noopener noreferrer" className="underline text-[var(--primary)]">{children}</a>
+              ),
+              blockquote: ({ children }) => (
+                <blockquote className="border-l-2 border-[var(--border)] pl-3 text-[var(--text-subtle)] my-2">{children}</blockquote>
+              ),
+            }}
+          >
+            {content}
+          </ReactMarkdown>
+        ) : (
           <span className="text-[var(--text-subtle)]">…</span>
         )}
       </div>
