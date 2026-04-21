@@ -21,8 +21,7 @@ const STEPS: TutorialStep[] = [
   },
   {
     title: "Module Cards",
-    body: "The colored cards in the center are EPM Planning modules — Financials, Workforce, Capital, Projects, and Strategic Modeling. Each one represents a distinct planning area with its own cube, dimensions, and business rules.",
-    focusNode: "financials",
+    body: "The colored cards at the top are EPM Planning modules — Financials, Workforce, Capital, Projects, and Strategic Modeling. Each one represents a distinct planning area with its own cube, dimensions, and business rules.",
   },
   {
     title: "Financials",
@@ -122,12 +121,22 @@ export function AtlasTutorial() {
     (nodeId: string) => {
       const node = getNode(nodeId);
       if (!node) return;
-      const x = node.position.x + (node.measured?.width ?? 220) / 2;
-      const y = node.position.y + (node.measured?.height ?? 100) / 2;
-      setCenter(x, y, { zoom: 0.75, duration: 600 });
+      const w = node.measured?.width ?? 220;
+      const h = node.measured?.height ?? 100;
+      const x = node.position.x + w / 2;
+      const y = node.position.y + h / 2;
+      // Workflow charts are large — zoom out so the full chart is visible
+      const isWorkflow = nodeId.startsWith("wf:");
+      const zoom = isWorkflow ? 0.45 : 0.9;
+      setCenter(x, y, { zoom, duration: 600 });
     },
     [getNode, setCenter],
   );
+
+  const focusModuleCluster = useCallback(() => {
+    // Center on the module cluster (roughly x:0..740, y:0..460)
+    setCenter(370, 230, { zoom: 0.85, duration: 600 });
+  }, [setCenter]);
 
   const goTo = useCallback(
     (idx: number) => {
@@ -137,9 +146,12 @@ export function AtlasTutorial() {
         focusOnNode(s.focusNode);
       } else if (idx === 0 || idx === STEPS.length - 1) {
         fitView({ padding: 0.15, duration: 600 });
+      } else {
+        // Steps without a focusNode (like "Module Cards") show the module cluster
+        focusModuleCluster();
       }
     },
-    [focusOnNode, fitView],
+    [focusOnNode, focusModuleCluster, fitView],
   );
 
   const next = useCallback(() => {
