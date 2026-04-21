@@ -46,18 +46,22 @@ const positions: Record<string, NodePosition> = {
   projects:            { x: 300, y: 360 },
 };
 
-// Workflow positions — single column, generous vertical spacing to prevent
-// overlap. Each flowchart can be up to ~500px wide and ~900px tall.
-// Ordered to match the tutorial walkthrough sequence.
+// Workflow positions — 2 columns × 4 rows. Each chart can be ~500px wide
+// and ~900px tall. Col gap = 700px, row gap = 1100px. Tutorial reads
+// left-to-right, top-to-bottom.
+const WF_COL_A = -100;
+const WF_COL_B = 600;
+const WF_ROW_START = 700;
+const WF_ROW_GAP = 1100;
 const workflowPositions: Record<string, NodePosition> = {
-  "data-movement":      { x: 0, y:   700 },
-  "security-priority":  { x: 0, y:  1700 },
-  "bt-wizard":          { x: 0, y:  2700 },
-  "budget-revisions":   { x: 0, y:  3700 },
-  approvals:            { x: 0, y:  4700 },
-  "ipm-insights":       { x: 0, y:  5700 },
-  "capital-financials": { x: 0, y:  6700 },
-  "getting-started":    { x: 0, y:  7700 },
+  "data-movement":      { x: WF_COL_A, y: WF_ROW_START },
+  "security-priority":  { x: WF_COL_B, y: WF_ROW_START },
+  "bt-wizard":          { x: WF_COL_A, y: WF_ROW_START + WF_ROW_GAP },
+  "budget-revisions":   { x: WF_COL_B, y: WF_ROW_START + WF_ROW_GAP },
+  approvals:            { x: WF_COL_A, y: WF_ROW_START + WF_ROW_GAP * 2 },
+  "ipm-insights":       { x: WF_COL_B, y: WF_ROW_START + WF_ROW_GAP * 2 },
+  "capital-financials": { x: WF_COL_A, y: WF_ROW_START + WF_ROW_GAP * 3 },
+  "getting-started":    { x: WF_COL_B, y: WF_ROW_START + WF_ROW_GAP * 3 },
 };
 
 // Which modules each workflow "touches" — used by the detail panel's
