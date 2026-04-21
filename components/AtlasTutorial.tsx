@@ -126,10 +126,10 @@ export function AtlasTutorial() {
       const x = node.position.x + w / 2;
       const y = node.position.y + h / 2;
       const isWorkflow = nodeId.startsWith("wf:");
-      // Zoom in more on workflows so text is readable, offset center
-      // upward by 150px so the tutorial panel at the bottom doesn't cover it
-      const zoom = isWorkflow ? 0.8 : 1.0;
-      const yOffset = isWorkflow ? -150 : 0;
+      // Max zoom on workflows, shift center down so the chart is visible
+      // in the middle of the viewport (not stuck at the top)
+      const zoom = isWorkflow ? 1.8 : 1.0;
+      const yOffset = isWorkflow ? 200 : 0;
       setCenter(x, y + yOffset, { zoom, duration: 600 });
     },
     [getNode, setCenter],
