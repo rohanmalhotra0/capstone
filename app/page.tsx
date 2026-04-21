@@ -8,27 +8,20 @@ import { glossary } from "@/lib/glossary";
 const sections = [
   {
     num: "01",
-    href: "/modules",
-    title: "Module Map",
-    kicker: "Canvas",
-    body: "A React Flow canvas of the five Planning Modules and seven integrations. Click anything to inspect features, dimensions, and setup.",
+    href: "/atlas",
+    title: "EPM Atlas",
+    kicker: "Canvas + Diagrams",
+    body: "The module map and every Mermaid workflow in one interactive view. Jump-anywhere table of contents covers the five Planning Modules, seven integrations, and eight workflows — B&T Wizard, Budget Revisions, Approvals, Capital→Financials, and more.",
   },
   {
     num: "02",
-    href: "/flows",
-    title: "Flowcharts",
-    kicker: "Diagrams",
-    body: "Eight Mermaid workflows — Data Movement logic, Security Priority, B&T Wizard, Budget Revisions, Approvals, IPM Insights, Capital→Financials, and onboarding.",
-  },
-  {
-    num: "03",
     href: "/simulator",
     title: "Approvals Simulator",
     kicker: "Interactive",
     body: "Step a planning unit through the state machine. Toggle Bottom Up, Distribute, or Free Form — illegal actions are disabled, just like the real engine.",
   },
   {
-    num: "04",
+    num: "03",
     href: "/glossary",
     title: "Glossary",
     kicker: "Reference",
@@ -94,7 +87,7 @@ export default function HomePage() {
             Contents
           </h2>
           <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-subtle)] hidden sm:inline">
-            I – IV
+            I – III
           </span>
         </div>
 
@@ -135,10 +128,10 @@ export default function HomePage() {
             The five modules
           </h2>
           <Link
-            href="/modules"
+            href="/atlas"
             className="text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)] hover:text-[var(--text)]"
           >
-            Open map ↗
+            Open atlas ↗
           </Link>
         </div>
 

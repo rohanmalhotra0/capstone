@@ -8,10 +8,9 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
   { href: "/", label: "Index", num: "00" },
-  { href: "/modules", label: "Module Map", num: "01" },
-  { href: "/flows", label: "Flowcharts", num: "02" },
-  { href: "/simulator", label: "Simulator", num: "03" },
-  { href: "/glossary", label: "Glossary", num: "04" },
+  { href: "/atlas", label: "EPM Atlas", num: "01" },
+  { href: "/simulator", label: "Simulator", num: "02" },
+  { href: "/glossary", label: "Glossary", num: "03" },
 ];
 
 function KbdHint() {

@@ -29,8 +29,7 @@ const kindLabel: Record<Kind, string> = {
 
 const pages: Item[] = [
   { id: "p-home", kind: "page", label: "Home", sub: "Landing", keywords: "home landing intro", href: "/" },
-  { id: "p-modules", kind: "page", label: "Module Map", sub: "/modules", keywords: "modules map graph flow", href: "/modules" },
-  { id: "p-flows", kind: "page", label: "Flowcharts", sub: "/flows", keywords: "flows flowcharts diagrams mermaid", href: "/flows" },
+  { id: "p-atlas", kind: "page", label: "EPM Atlas", sub: "/atlas", keywords: "atlas modules flows flowcharts workflows map graph learn", href: "/atlas" },
   { id: "p-simulator", kind: "page", label: "Approvals Simulator", sub: "/simulator", keywords: "approvals simulator state machine", href: "/simulator" },
   { id: "p-glossary", kind: "page", label: "Glossary", sub: "/glossary", keywords: "glossary terms definitions", href: "/glossary" },
 ];
@@ -50,7 +49,7 @@ export function CommandPalette() {
       label: x.name,
       sub: `${x.prefix} · ${x.tagline}`,
       keywords: `${x.name} ${x.prefix} ${x.tagline} ${x.keyFeatures.join(" ")}`,
-      href: `/modules?m=${x.id}`,
+      href: `/atlas?m=${x.id}`,
       color: x.color,
     }));
     const i: Item[] = integrations.map((x) => ({
@@ -59,7 +58,7 @@ export function CommandPalette() {
       label: x.label,
       sub: x.dataShared,
       keywords: `${x.label} ${x.dataShared} ${x.from} ${x.to}`,
-      href: `/modules?i=${x.id}`,
+      href: `/atlas?i=${x.id}`,
     }));
     const f: Item[] = flows.map((x) => ({
       id: `f-${x.id}`,
@@ -67,7 +66,7 @@ export function CommandPalette() {
       label: x.title,
       sub: x.caption,
       keywords: `${x.title} ${x.caption}`,
-      href: `/flows#${x.id}`,
+      href: `/atlas?view=flow&f=${x.id}`,
     }));
     const g: Item[] = glossary.map((x) => ({
       id: `g-${x.term}`,

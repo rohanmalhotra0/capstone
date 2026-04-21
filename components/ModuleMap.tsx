@@ -14,6 +14,7 @@ import {
 } from "@xyflow/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { HelpCircle, X } from "lucide-react";
 import { ModuleNode, type ModuleNodeData } from "./ModuleNode";
 import { ModuleDetailPanel } from "./ModuleDetailPanel";
 import { IntegrationDetailPanel } from "./IntegrationDetailPanel";
@@ -57,12 +58,34 @@ const edgeRouting: Record<
 
 const nodeTypes = { module: ModuleNode };
 
+const HELP_STORAGE_KEY = "epm-map-help-dismissed";
+
 export function ModuleMap() {
   const searchParams = useSearchParams();
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null);
   const [selectedIntegrationId, setSelectedIntegrationId] = useState<
     string | null
   >(null);
+  const [helpOpen, setHelpOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const dismissed = window.localStorage.getItem(HELP_STORAGE_KEY) === "1";
+    setHelpOpen(!dismissed);
+  }, []);
+
+  const dismissHelp = () => {
+    setHelpOpen(false);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(HELP_STORAGE_KEY, "1");
+    }
+  };
+  const openHelp = () => {
+    setHelpOpen(true);
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(HELP_STORAGE_KEY);
+    }
+  };
 
   // Deep-link: /modules?m=<id> or /modules?i=<id>
   useEffect(() => {
@@ -203,25 +226,41 @@ export function ModuleMap() {
         <Controls showInteractive={false} />
       </ReactFlow>
 
-      {/* Legend overlay */}
-      <div className="absolute top-4 left-4 z-10 rounded-lg border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-md p-3 max-w-[260px]">
-        <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-subtle)] mb-2">
-          How to use
+      {helpOpen ? (
+        <div className="absolute top-4 left-4 z-10 rounded-lg border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-md p-3 pr-8 max-w-[260px]">
+          <button
+            onClick={dismissHelp}
+            aria-label="Dismiss how to use"
+            className="absolute top-1.5 right-1.5 flex h-6 w-6 items-center justify-center rounded-md text-[var(--text-subtle)] hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+          <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-subtle)] mb-2">
+            How to use
+          </div>
+          <ul className="text-xs text-[var(--text-muted)] space-y-1 leading-relaxed">
+            <li>
+              <span className="text-[var(--text)]">Click a module</span> for
+              features, dimensions, integrations.
+            </li>
+            <li>
+              <span className="text-[var(--text)]">Click an arrow</span> for data
+              shared and setup steps.
+            </li>
+            <li className="text-[var(--text-subtle)]">
+              Drag nodes · scroll to zoom · pan to explore.
+            </li>
+          </ul>
         </div>
-        <ul className="text-xs text-[var(--text-muted)] space-y-1 leading-relaxed">
-          <li>
-            <span className="text-[var(--text)]">Click a module</span> for
-            features, dimensions, integrations.
-          </li>
-          <li>
-            <span className="text-[var(--text)]">Click an arrow</span> for data
-            shared and setup steps.
-          </li>
-          <li className="text-[var(--text-subtle)]">
-            Drag nodes · scroll to zoom · pan to explore.
-          </li>
-        </ul>
-      </div>
+      ) : (
+        <button
+          onClick={openHelp}
+          aria-label="Show how to use"
+          className="absolute top-4 left-4 z-10 flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-md text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--border-strong)] transition-colors"
+        >
+          <HelpCircle className="h-4 w-4" />
+        </button>
+      )}
 
       <ModuleDetailPanel
         module={selectedModule}
