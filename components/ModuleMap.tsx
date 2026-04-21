@@ -46,18 +46,18 @@ const positions: Record<string, NodePosition> = {
   projects:            { x: 300, y: 360 },
 };
 
-// Workflow positions — two columns, generous vertical spacing (~700px per row)
-// to prevent overlap. Ordered to match the tutorial walkthrough sequence.
-// Col A: x=0, Col B: x=650
+// Workflow positions — single column, generous vertical spacing to prevent
+// overlap. Each flowchart can be up to ~500px wide and ~900px tall.
+// Ordered to match the tutorial walkthrough sequence.
 const workflowPositions: Record<string, NodePosition> = {
-  "data-movement":      { x:    0, y:  600 },
-  "security-priority":  { x:  650, y:  600 },
-  "bt-wizard":          { x:    0, y: 1300 },
-  "budget-revisions":   { x:  650, y: 1300 },
-  approvals:            { x:    0, y: 2000 },
-  "ipm-insights":       { x:  650, y: 2000 },
-  "capital-financials": { x:    0, y: 2700 },
-  "getting-started":    { x:  650, y: 2700 },
+  "data-movement":      { x: 0, y:   700 },
+  "security-priority":  { x: 0, y:  1700 },
+  "bt-wizard":          { x: 0, y:  2700 },
+  "budget-revisions":   { x: 0, y:  3700 },
+  approvals:            { x: 0, y:  4700 },
+  "ipm-insights":       { x: 0, y:  5700 },
+  "capital-financials": { x: 0, y:  6700 },
+  "getting-started":    { x: 0, y:  7700 },
 };
 
 // Which modules each workflow "touches" — used by the detail panel's
@@ -275,9 +275,8 @@ export function ModuleMap() {
         nodeTypes={nodeTypes}
         onNodeClick={onNodeClick}
         onEdgeClick={onEdgeClick}
-        fitView
-        fitViewOptions={{ padding: 0.18 }}
-        minZoom={0.3}
+        defaultViewport={{ x: 80, y: 40, zoom: 1 }}
+        minZoom={0.2}
         maxZoom={1.8}
         proOptions={{ hideAttribution: true }}
         nodesDraggable

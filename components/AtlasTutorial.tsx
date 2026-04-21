@@ -125,9 +125,10 @@ export function AtlasTutorial() {
       const h = node.measured?.height ?? 100;
       const x = node.position.x + w / 2;
       const y = node.position.y + h / 2;
-      // Workflow charts are large — zoom out so the full chart is visible
+      // Workflow charts are large — zoom to 0.65 so they're readable
+      // but fully visible. Module cards are small — zoom to 1.0 for detail.
       const isWorkflow = nodeId.startsWith("wf:");
-      const zoom = isWorkflow ? 0.45 : 0.9;
+      const zoom = isWorkflow ? 0.65 : 1.0;
       setCenter(x, y, { zoom, duration: 600 });
     },
     [getNode, setCenter],
