@@ -1,0 +1,177 @@
+@import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+:root {
+  --bg: #0b0f1a;
+  --surface: #151a29;
+  --surface-2: #1c2238;
+  --border: #232a44;
+  --border-strong: #2f385a;
+  --text: #f4f4f4;
+  --text-muted: #a6adbb;
+  --text-subtle: #6b7289;
+  --primary: #0f62fe;
+  --primary-hover: #4589ff;
+  --accent: #08bdba;
+  --danger: #fa4d56;
+  --warning: #f1c21b;
+  --success: #42be65;
+}
+
+.light {
+  --bg: #f4f4f4;
+  --surface: #ffffff;
+  --surface-2: #e8eaf0;
+  --border: #dde1e6;
+  --border-strong: #c1c7cd;
+  --text: #161616;
+  --text-muted: #525252;
+  --text-subtle: #8d8d8d;
+  --primary: #0f62fe;
+  --primary-hover: #0043ce;
+  --accent: #007d79;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-image:
+    radial-gradient(
+      circle at 20% 0%,
+      rgba(15, 98, 254, 0.12),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(8, 189, 186, 0.08),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(15, 98, 254, 0.06),
+      transparent 60%
+    );
+  background-attachment: fixed;
+}
+
+.light body {
+  background-image:
+    radial-gradient(
+      circle at 20% 0%,
+      rgba(15, 98, 254, 0.08),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(0, 125, 121, 0.05),
+      transparent 40%
+    );
+}
+
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* React Flow theming */
+.react-flow__attribution {
+  background: transparent !important;
+  color: var(--text-subtle) !important;
+  font-size: 10px !important;
+}
+
+.react-flow__minimap {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+}
+
+.react-flow__controls {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+.react-flow__controls-button {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+.react-flow__controls-button:hover {
+  background: var(--surface-2) !important;
+}
+.react-flow__controls-button svg {
+  fill: var(--text) !important;
+}
+
+.react-flow__edge-path {
+  stroke-width: 1.75;
+}
+
+/* Mermaid container */
+.mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.35s ease-out both;
+}
