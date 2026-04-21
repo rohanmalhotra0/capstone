@@ -195,6 +195,15 @@ body {
   stroke-width: 1.75;
 }
 
+/* Strip React Flow's default node chrome from workflow nodes */
+.react-flow__node-workflow {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 /* Mermaid container */
 .mermaid-container svg {
   max-width: 100%;
