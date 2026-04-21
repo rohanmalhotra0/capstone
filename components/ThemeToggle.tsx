@@ -7,14 +7,14 @@ import { Button } from "@/components/ui/button";
 type Theme = "dark" | "light";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const stored = (typeof window !== "undefined"
       ? window.localStorage.getItem("epm-theme")
       : null) as Theme | null;
-    const initial: Theme = stored ?? "dark";
+    const initial: Theme = stored ?? "light";
     setTheme(initial);
     document.documentElement.classList.toggle("light", initial === "light");
     setMounted(true);
@@ -32,7 +32,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <Button variant="ghost" size="icon" aria-label="Toggle theme">
-        <Moon className="h-4 w-4" />
+        <Sun className="h-4 w-4" />
       </Button>
     );
   }

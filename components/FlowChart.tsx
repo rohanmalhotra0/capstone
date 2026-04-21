@@ -9,7 +9,24 @@ interface FlowChartProps {
   scale?: number;
 }
 
+function useIsLight() {
+  const [isLight, setIsLight] = useState(false);
+  useEffect(() => {
+    const update = () =>
+      setIsLight(document.documentElement.classList.contains("light"));
+    update();
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => obs.disconnect();
+  }, []);
+  return isLight;
+}
+
 export function FlowChart({ chart, className, scale = 1 }: FlowChartProps) {
+  const isLight = useIsLight();
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -21,9 +38,6 @@ export function FlowChart({ chart, className, scale = 1 }: FlowChartProps) {
     (async () => {
       try {
         const mermaid = (await import("mermaid")).default;
-        const isLight =
-          typeof document !== "undefined" &&
-          document.documentElement.classList.contains("light");
 
         mermaid.initialize({
           startOnLoad: false,
@@ -77,7 +91,7 @@ export function FlowChart({ chart, className, scale = 1 }: FlowChartProps) {
     return () => {
       cancelled = true;
     };
-  }, [chart]);
+  }, [chart, isLight]);
 
   // Post-render: scale the injected <svg> by multiplying its intrinsic
   // width/height. Mermaid outputs `max-width: …px` so we also clear that.
