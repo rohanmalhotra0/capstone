@@ -248,6 +248,123 @@ export const glossary: GlossaryTerm[] = [
     category: "module",
     relatedModules: ["projects"],
   },
+  {
+    term: "Smart Push",
+    shortDef: "Form-save trigger that pushes data through a Data Map into a target cube immediately.",
+    longDef:
+      "Smart Push fires automatically (or on demand) from a form save, executing an attached Data Map so planners see the impact in the target cube without running a separate job. Use for cross-cube forms where instant reflection matters.",
+    category: "integration",
+  },
+  {
+    term: "Data Integration",
+    aliases: ["Data Management", "EPM Integration Agent"],
+    shortDef: "ETL tool that loads external source data (files, ERPs) into EPM cubes.",
+    longDef:
+      "Data Integration (successor to Data Management) is the load pipeline for external sources — flat files, Oracle ERP Cloud, Fusion GL, etc. It maps source columns to target dimensions and supports scheduled loads. Contrast with Data Map (cube↔cube) and Smart Push (form-save trigger).",
+    category: "integration",
+  },
+  {
+    term: "Data Movement Decision",
+    shortDef: "Smart Push vs Data Map vs Data Integration — picked by trigger and source.",
+    longDef:
+      "Decision rule: external source → Data Integration. Form-save trigger → Smart Push. Cube-to-cube batch → Data Map. Most-tested concept on the 1Z0-1080 exam. Smart Push is actually Data Map + automatic form-save trigger underneath.",
+    category: "integration",
+  },
+  {
+    term: "Security Priority",
+    aliases: ["Deny Wins", "Access Priority"],
+    shortDef: "Deny > None > Write > Read. Most restrictive access wins.",
+    longDef:
+      "When a user inherits access through multiple groups or layers, Oracle EPM resolves conflicts by Deny > None > Write > Read. Deny always wins. Applied across five layers: Role → Artifact → Dimension → Valid Intersection → Cell-level.",
+    category: "concept",
+  },
+  {
+    term: "Cell-Level Security",
+    shortDef: "Deepest security layer — restricts access to individual cube cells via rules.",
+    longDef:
+      "Cell-level security is the narrowest layer below Valid Intersections. It evaluates a user's context and the cell's dimension members to grant or deny read/write per cell. Expensive — use sparingly for sensitive cross-sections (exec comp, confidential entities).",
+    category: "concept",
+  },
+  {
+    term: "IPM Insights",
+    aliases: ["Intelligent Performance Management", "IPM"],
+    shortDef: "AI-assisted layer that surfaces variance, prediction, and anomaly insights to planners.",
+    longDef:
+      "IPM Insights runs three engines on planning data: Variance & Bias (actual vs plan patterns), Prediction (auto ML forecasts), and Anomaly Detection (outlier cells). Configured via IPM Configurator; planners review insights and accept or dismiss them.",
+    category: "concept",
+  },
+  {
+    term: "Variance & Bias Insight",
+    shortDef: "IPM engine that flags where actuals consistently drift from plan (persistent bias).",
+    longDef:
+      "A Variance & Bias insight highlights accounts or entities where the gap between actual and plan is non-random — i.e. a planner is consistently high or low. Surfaces behavioural bias, not just numerical variance.",
+    category: "concept",
+  },
+  {
+    term: "Prediction Insight",
+    shortDef: "IPM engine that generates a statistical forecast from historical actuals.",
+    longDef:
+      "Prediction Insights run ML models on historical actuals to produce a baseline forecast. Planners compare their plan to the model and adjust. Works best with 24+ months of clean history.",
+    category: "concept",
+  },
+  {
+    term: "Anomaly Detection",
+    shortDef: "IPM engine that flags individual cells whose values are statistical outliers.",
+    longDef:
+      "Anomaly Detection examines historical time-series per cell and flags values that deviate meaningfully. Useful for catching data-load errors or one-time events that shouldn't anchor a forecast.",
+    category: "concept",
+  },
+  {
+    term: "EPM Automate",
+    aliases: ["EPM Automate CLI"],
+    shortDef: "CLI for scripting EPM Cloud admin and data operations from outside the UI.",
+    longDef:
+      "EPM Automate is the official command-line client. Common commands: login, uploadFile, importData, runBusinessRule, exportSnapshot, runDataRule, restructureCube. Used for nightly batches, backups, and CI-style deployments of metadata.",
+    category: "integration",
+  },
+  {
+    term: "Delegate (Approval)",
+    shortDef: "Bottom Up action — reviewer hands evaluation to a delegate without advancing the path.",
+    longDef:
+      "In Bottom Up approvals, the current reviewer can Delegate the unit to another user. The unit enters a Delegated state; the delegate reviews and Promotes back to the main path. Distinct from Take Ownership and Submit to Top.",
+    category: "approval",
+  },
+  {
+    term: "Take Ownership",
+    shortDef: "A parent approver seizes control of a planning unit mid-path.",
+    longDef:
+      "Take Ownership lets a parent owner pull a planning unit out of the current reviewer's queue and become the active reviewer. The state stays Under Review but the responsible actor changes. Available in Bottom Up and Distribute.",
+    category: "approval",
+  },
+  {
+    term: "Submit to Top",
+    shortDef: "Bottom Up action — skip remaining levels and route straight to the unit's top owner.",
+    longDef:
+      "Submit to Top is an escalation path in Bottom Up approvals. The reviewer bypasses intermediate levels and sends the unit to the planning unit's top owner, who then signs off.",
+    category: "approval",
+  },
+  {
+    term: "Reopen (Approval)",
+    shortDef: "Admin action that pulls a signed-off unit back into review.",
+    longDef:
+      "Reopen moves a Signed Off planning unit back to Under Review. Used for corrections or post-freeze revisions. Typically admin-only and logged for audit.",
+    category: "approval",
+  },
+  {
+    term: "Years (Dimension)",
+    aliases: ["Year Dimension"],
+    shortDef: "Required dimension — must be named 'Years' (plural), not 'Year'.",
+    longDef:
+      "The time-year dimension in Planning must be named 'Years' — plural. A common exam trap: 'Year' (singular) is wrong. It holds members like FY23, FY24, etc.",
+    category: "dimension",
+  },
+  {
+    term: "Valid Intersection vs Cell Security",
+    shortDef: "Valid Intersections block data entry; Cell-level security filters read/write.",
+    longDef:
+      "Valid Intersections are structural — they prevent nonsensical combinations from ever holding data. Cell-level security is access-based — it restricts who can see or edit existing cells. Both are layers in the security priority stack.",
+    category: "concept",
+  },
 ];
 
 export function searchGlossary(query: string): GlossaryTerm[] {

@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/modules", label: "Module Map" },
-  { href: "/flows", label: "Flowcharts" },
-  { href: "/simulator", label: "Simulator" },
-  { href: "/glossary", label: "Glossary" },
+  { href: "/", label: "Index", num: "00" },
+  { href: "/modules", label: "Module Map", num: "01" },
+  { href: "/flows", label: "Flowcharts", num: "02" },
+  { href: "/simulator", label: "Simulator", num: "03" },
+  { href: "/glossary", label: "Glossary", num: "04" },
 ];
 
 function KbdHint() {
@@ -37,11 +37,15 @@ function KbdHint() {
           );
         }
       }}
-      className="hidden md:flex items-center gap-1 rounded-md border border-[var(--border)] px-2 py-1 text-[11px] font-mono text-[var(--text-subtle)] hover:text-[var(--text)] hover:border-[var(--primary)]/50 transition"
+      className="hidden md:inline-flex items-center gap-1 text-[11px] font-mono text-[var(--text-subtle)] hover:text-[var(--text)] transition"
       aria-label="Open command palette"
     >
-      <span>{isMac ? "⌘" : "Ctrl"}</span>
-      <span>K</span>
+      <kbd className="border border-[var(--border)] rounded px-1.5 py-0.5 text-[10px]">
+        {isMac ? "⌘" : "Ctrl"}
+      </kbd>
+      <kbd className="border border-[var(--border)] rounded px-1.5 py-0.5 text-[10px]">
+        K
+      </kbd>
     </button>
   );
 }
@@ -49,23 +53,17 @@ function KbdHint() {
 export function Nav() {
   const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <span
-            className="flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-bold"
-            style={{ background: "#0f62fe", color: "#fff" }}
-          >
-            EPM
+    <header className="sticky top-0 z-40 w-full border-b border-[var(--border)] bg-[var(--bg)]/85 backdrop-blur-md">
+      <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-6">
+        <Link href="/" className="flex items-baseline gap-2 group">
+          <span className="text-[13px] font-semibold tracking-tight text-[var(--text)]">
+            EPM<span className="text-[var(--text-subtle)]">/</span>Planning
           </span>
-          <span className="text-sm font-semibold tracking-tight text-[var(--text)] group-hover:text-[var(--primary-hover)] transition-colors">
-            Planning Modules
-          </span>
-          <span className="text-xs text-[var(--text-subtle)] font-mono hidden sm:inline">
-            / Interactive Guide
+          <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)] hidden sm:inline">
+            v0.2
           </span>
         </Link>
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-5 sm:gap-6">
           {links.map((link) => {
             const active =
               link.href === "/"
@@ -76,17 +74,43 @@ export function Nav() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-3 py-1.5 rounded-md text-sm transition-colors",
+                  "relative text-[13px] transition-colors py-3 hidden sm:inline-flex items-center gap-1.5",
                   active
-                    ? "text-[var(--text)] bg-[var(--surface-2)]"
-                    : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]/60",
+                    ? "text-[var(--text)]"
+                    : "text-[var(--text-muted)] hover:text-[var(--text)]",
                 )}
               >
-                {link.label}
+                <span className="font-mono text-[10px] text-[var(--text-subtle)]">
+                  {link.num}
+                </span>
+                <span className="tracking-tight">{link.label}</span>
+                {active && (
+                  <span className="absolute inset-x-0 -bottom-px h-px bg-[var(--text)]" />
+                )}
               </Link>
             );
           })}
-          <span className="mx-1 h-5 w-px bg-[var(--border)]" />
+          {/* Mobile labels only */}
+          <div className="sm:hidden flex items-center gap-3">
+            {links.slice(1).map((link) => {
+              const active = pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "text-[12px]",
+                    active
+                      ? "text-[var(--text)]"
+                      : "text-[var(--text-muted)]",
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+          <span className="h-4 w-px bg-[var(--border)]" />
           <KbdHint />
           <ThemeToggle />
         </nav>

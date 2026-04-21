@@ -1,184 +1,195 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, GitBranch, Network, Play } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { ArrowUpRight } from "lucide-react";
 import { modules } from "@/lib/modules";
 import { integrations } from "@/lib/integrations";
 import { flows } from "@/lib/flows";
 import { glossary } from "@/lib/glossary";
 
+const sections = [
+  {
+    num: "01",
+    href: "/modules",
+    title: "Module Map",
+    kicker: "Canvas",
+    body: "A React Flow canvas of the five Planning Modules and seven integrations. Click anything to inspect features, dimensions, and setup.",
+  },
+  {
+    num: "02",
+    href: "/flows",
+    title: "Flowcharts",
+    kicker: "Diagrams",
+    body: "Eight Mermaid workflows — Data Movement logic, Security Priority, B&T Wizard, Budget Revisions, Approvals, IPM Insights, Capital→Financials, and onboarding.",
+  },
+  {
+    num: "03",
+    href: "/simulator",
+    title: "Approvals Simulator",
+    kicker: "Interactive",
+    body: "Step a planning unit through the state machine. Toggle Bottom Up, Distribute, or Free Form — illegal actions are disabled, just like the real engine.",
+  },
+  {
+    num: "04",
+    href: "/glossary",
+    title: "Glossary",
+    kicker: "Reference",
+    body: "Searchable terms from the study guide — wizards, rules, approval templates, dimensions, prefixes. Filterable by category.",
+  },
+];
+
 export default function HomePage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 pt-16 pb-24">
-      <section className="text-center animate-fade-in">
-        <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)]/60 px-3 py-1 text-xs font-mono text-[var(--text-muted)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-          Capstone prototype · v0.2
-        </div>
-        <h1 className="mt-6 text-balance text-5xl sm:text-6xl font-semibold tracking-tight text-[var(--text)] leading-[1.05]">
-          Oracle EPM Planning Modules
-          <span className="block text-[var(--text-muted)] font-normal mt-2 text-3xl sm:text-4xl">
-            Interactive Guide
+    <div className="mx-auto max-w-6xl px-6 pt-20 pb-24">
+      {/* eyebrow */}
+      <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-subtle)]">
+        <span className="inline-block h-px w-8 bg-[var(--border-strong)]" />
+        An Oracle 1Z0‑1080 study companion
+      </div>
+
+      {/* hero */}
+      <section className="mt-6 grid gap-10 md:grid-cols-12 md:gap-8 md:items-end">
+        <h1 className="md:col-span-8 text-balance text-[44px] sm:text-[58px] md:text-[72px] font-semibold tracking-[-0.02em] text-[var(--text)] leading-[0.98]">
+          The Oracle EPM
+          <br />
+          Planning Modules,
+          <br />
+          <span className="text-[var(--text-muted)] italic font-normal">
+            explained visually.
           </span>
         </h1>
-        <p className="mt-6 max-w-2xl mx-auto text-lg text-[var(--text-muted)] leading-relaxed">
-          A visual architecture reference for Oracle 1Z0-1080 certification and
-          EPM consulting onboarding — built from the official study guide.
+        <p className="md:col-span-4 text-[15px] leading-[1.6] text-[var(--text-muted)]">
+          A visual architecture reference for the{" "}
+          <span className="text-[var(--text)]">1Z0‑1080</span> certification and
+          EPM consulting onboarding — built from the official study guide, then
+          hand-annotated with the details that actually trip people up in
+          implementation.
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm font-mono text-[var(--text-subtle)]">
-          <span>{modules.length} modules</span>
-          <span className="h-1 w-1 rounded-full bg-[var(--border-strong)]" />
-          <span>{integrations.length} integrations</span>
-          <span className="h-1 w-1 rounded-full bg-[var(--border-strong)]" />
-          <span>{flows.length} flowcharts</span>
-          <span className="h-1 w-1 rounded-full bg-[var(--border-strong)]" />
-          <span>{glossary.length} glossary terms</span>
-          <span className="h-1 w-1 rounded-full bg-[var(--border-strong)]" />
-          <span className="text-[var(--text-muted)]">Press ⌘K to jump</span>
-        </div>
       </section>
 
-      <section className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Link href="/modules" className="group">
-          <Card className="h-full p-8 transition-all hover:border-[var(--primary)]/50 hover:bg-[var(--surface)]/95 hover:-translate-y-0.5">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-lg"
-              style={{
-                background: "rgba(15,98,254,0.15)",
-                border: "1px solid rgba(15,98,254,0.35)",
-                color: "#4589ff",
-              }}
-            >
-              <Network className="h-5 w-5" />
-            </div>
-            <h2 className="mt-5 text-2xl font-semibold tracking-tight text-[var(--text)]">
-              Explore the Module Map
-            </h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)] leading-relaxed">
-              A live React Flow canvas of the five Planning Modules and the
-              seven integrations between them. Click any module or arrow to
-              open a details panel with features, dimensions, data flows, and
-              setup steps.
-            </p>
-            <div className="mt-6 flex items-center gap-2 text-sm font-medium text-[var(--primary-hover)] group-hover:gap-3 transition-all">
-              Open module map
-              <ArrowRight className="h-4 w-4" />
-            </div>
-          </Card>
-        </Link>
+      {/* stats — dense spec row */}
+      <dl className="mt-14 grid grid-cols-2 sm:grid-cols-4 border-y border-[var(--border)] divide-x divide-[var(--border)]">
+        {[
+          { k: "Modules", v: modules.length },
+          { k: "Integrations", v: integrations.length },
+          { k: "Flowcharts", v: flows.length },
+          { k: "Glossary", v: glossary.length },
+        ].map((s, i) => (
+          <div
+            key={s.k}
+            className={`px-4 py-5 ${i < 2 ? "border-b sm:border-b-0 border-[var(--border)]" : ""}`}
+          >
+            <dt className="text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)]">
+              {s.k}
+            </dt>
+            <dd className="mt-1.5 text-2xl font-semibold tracking-tight tabular-nums text-[var(--text)]">
+              {s.v}
+            </dd>
+          </div>
+        ))}
+      </dl>
 
-        <Link href="/flows" className="group">
-          <Card className="h-full p-8 transition-all hover:border-[var(--accent)]/60 hover:bg-[var(--surface)]/95 hover:-translate-y-0.5">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-lg"
-              style={{
-                background: "rgba(8,189,186,0.15)",
-                border: "1px solid rgba(8,189,186,0.4)",
-                color: "#08bdba",
-              }}
-            >
-              <GitBranch className="h-5 w-5" />
-            </div>
-            <h2 className="mt-5 text-2xl font-semibold tracking-tight text-[var(--text)]">
-              Browse Flowcharts
-            </h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)] leading-relaxed">
-              Five rendered Mermaid diagrams — B&amp;T Wizard chain, Budget
-              Revisions workflow, Approvals state machine, Capital→Financials
-              integration, and the 14-step Getting Started checklist.
-            </p>
-            <div className="mt-6 flex items-center gap-2 text-sm font-medium text-[var(--accent)] group-hover:gap-3 transition-all">
-              Open flowchart library
-              <ArrowRight className="h-4 w-4" />
-            </div>
-          </Card>
-        </Link>
+      {/* contents index */}
+      <section className="mt-20">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-subtle)]">
+            Contents
+          </h2>
+          <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-subtle)] hidden sm:inline">
+            I – IV
+          </span>
+        </div>
 
-        <Link href="/simulator" className="group">
-          <Card className="h-full p-8 transition-all hover:border-[#be95ff]/60 hover:bg-[var(--surface)]/95 hover:-translate-y-0.5">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-lg"
-              style={{
-                background: "rgba(190,149,255,0.15)",
-                border: "1px solid rgba(190,149,255,0.4)",
-                color: "#be95ff",
-              }}
-            >
-              <Play className="h-5 w-5" />
-            </div>
-            <h2 className="mt-5 text-2xl font-semibold tracking-tight text-[var(--text)]">
-              Approvals Simulator
-            </h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)] leading-relaxed">
-              Step a planning unit through the approval state machine. Pick
-              Bottom Up, Distribute, or Free Form — watch Promote vs Submit
-              semantics in action.
-            </p>
-            <div className="mt-6 flex items-center gap-2 text-sm font-medium text-[#be95ff] group-hover:gap-3 transition-all">
-              Try it
-              <ArrowRight className="h-4 w-4" />
-            </div>
-          </Card>
-        </Link>
-
-        <Link href="/glossary" className="group">
-          <Card className="h-full p-8 transition-all hover:border-[#ff7eb6]/60 hover:bg-[var(--surface)]/95 hover:-translate-y-0.5">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-lg"
-              style={{
-                background: "rgba(255,126,182,0.15)",
-                border: "1px solid rgba(255,126,182,0.4)",
-                color: "#ff7eb6",
-              }}
-            >
-              <BookOpen className="h-5 w-5" />
-            </div>
-            <h2 className="mt-5 text-2xl font-semibold tracking-tight text-[var(--text)]">
-              Glossary
-            </h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)] leading-relaxed">
-              {glossary.length} searchable terms from the study guide — wizards,
-              rules, approval templates, dimensions, and module prefixes. Filter
-              by category.
-            </p>
-            <div className="mt-6 flex items-center gap-2 text-sm font-medium text-[#ff7eb6] group-hover:gap-3 transition-all">
-              Browse terms
-              <ArrowRight className="h-4 w-4" />
-            </div>
-          </Card>
-        </Link>
+        <ul className="mt-6 border-t border-[var(--border)]">
+          {sections.map((s) => (
+            <li key={s.href} className="border-b border-[var(--border)]">
+              <Link
+                href={s.href}
+                className="group grid grid-cols-12 gap-4 py-6 items-baseline hover:bg-[var(--surface)]/40 transition-colors px-1 -mx-1"
+              >
+                <span className="col-span-2 sm:col-span-1 font-mono text-[12px] text-[var(--text-subtle)] pt-1">
+                  {s.num}
+                </span>
+                <div className="col-span-10 sm:col-span-4">
+                  <div className="text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)]">
+                    {s.kicker}
+                  </div>
+                  <div className="mt-1 text-2xl font-medium tracking-tight text-[var(--text)] group-hover:text-[var(--primary-hover)] transition-colors">
+                    {s.title}
+                  </div>
+                </div>
+                <p className="col-span-10 col-start-3 sm:col-span-6 sm:col-start-auto text-[14px] leading-[1.55] text-[var(--text-muted)]">
+                  {s.body}
+                </p>
+                <div className="hidden sm:flex col-span-1 justify-end pt-1">
+                  <ArrowUpRight className="h-4 w-4 text-[var(--text-subtle)] group-hover:text-[var(--text)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section className="mt-16">
-        <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-subtle)] mb-3">
-          Planning Modules covered
+      {/* modules table */}
+      <section className="mt-20">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-subtle)]">
+            The five modules
+          </h2>
+          <Link
+            href="/modules"
+            className="text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)] hover:text-[var(--text)]"
+          >
+            Open map ↗
+          </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-          {modules.map((m) => (
+
+        <div className="mt-6 border border-[var(--border)] rounded-md overflow-hidden">
+          <div className="grid grid-cols-12 px-4 py-2.5 bg-[var(--surface)]/50 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)] border-b border-[var(--border)]">
+            <div className="col-span-1">#</div>
+            <div className="col-span-3">Module</div>
+            <div className="col-span-2">Prefix</div>
+            <div className="col-span-6">Tagline</div>
+          </div>
+          {modules.map((m, i) => (
             <div
               key={m.id}
-              className="rounded-lg border border-[var(--border)] bg-[var(--surface)]/60 p-3"
+              className={`grid grid-cols-12 items-center px-4 py-4 text-sm ${
+                i < modules.length - 1 ? "border-b border-[var(--border)]" : ""
+              }`}
             >
-              <div className="flex items-center gap-2">
+              <div className="col-span-1 font-mono text-[12px] text-[var(--text-subtle)] tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div className="col-span-3 flex items-center gap-2.5">
                 <span
-                  className="h-2 w-2 rounded-full"
+                  className="h-1.5 w-1.5 rounded-full"
                   style={{ background: m.color }}
                 />
-                <span className="text-sm font-semibold text-[var(--text)]">
+                <span className="font-medium text-[var(--text)]">
                   {m.name}
                 </span>
               </div>
-              <div className="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-[var(--text-subtle)]">
+              <div className="col-span-2 font-mono text-[12px] text-[var(--text-muted)]">
                 {m.prefix}
+              </div>
+              <div className="col-span-6 text-[var(--text-muted)] leading-snug">
+                {m.tagline}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <footer className="mt-24 pt-8 border-t border-[var(--border)] text-center">
-        <p className="text-xs font-mono text-[var(--text-subtle)]">
-          Built by Rohan for IBM Oracle EPM Consulting internship capstone,
-          2026.
+      {/* footer */}
+      <footer className="mt-24 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row gap-2 sm:items-baseline sm:justify-between">
+        <p className="text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)]">
+          Rohan Malhotra · IBM Oracle EPM Capstone · 2026
+        </p>
+        <p className="text-[11px] font-mono text-[var(--text-subtle)]">
+          Press{" "}
+          <kbd className="border border-[var(--border)] rounded px-1.5 py-0.5 text-[10px] text-[var(--text-muted)]">
+            ⌘K
+          </kbd>{" "}
+          to search.
         </p>
       </footer>
     </div>

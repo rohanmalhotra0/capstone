@@ -3,25 +3,30 @@ import { FlowsGallery } from "@/components/FlowsGallery";
 export const metadata = {
   title: "Flowcharts — Oracle EPM Planning Modules",
   description:
-    "Five Mermaid flowcharts covering B&T Wizard, Budget Revisions, Approvals, Capital→Financials, and Getting Started.",
+    "Eight Mermaid flowcharts covering Data Movement, Security Priority, B&T Wizard, Budget Revisions, Approvals, IPM Insights, Capital→Financials, and Getting Started.",
 };
 
 export default function FlowsPage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 pt-10 pb-24">
-      <header className="mb-10 max-w-3xl">
-        <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-subtle)] mb-2">
-          Flowchart Library
+    <div className="mx-auto max-w-6xl px-6 pt-16 pb-24">
+      <header className="mb-12 max-w-3xl">
+        <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-subtle)]">
+          <span className="inline-block h-px w-8 bg-[var(--border-strong)]" />
+          02 — Flowcharts
         </div>
-        <h1 className="text-4xl font-semibold tracking-tight text-[var(--text)]">
-          Five core EPM workflows, rendered live.
+        <h1 className="mt-5 text-[40px] sm:text-[56px] font-semibold tracking-[-0.02em] leading-[1] text-[var(--text)]">
+          Eight workflows,
+          <br />
+          <span className="text-[var(--text-muted)] italic font-normal">
+            rendered live.
+          </span>
         </h1>
-        <p className="mt-3 text-[var(--text-muted)] leading-relaxed">
+        <p className="mt-5 text-[15px] leading-[1.6] text-[var(--text-muted)]">
           Each flowchart is defined as structured Mermaid source in{" "}
-          <code className="font-mono text-sm text-[var(--text)] bg-[var(--surface-2)] px-1.5 py-0.5 rounded">
-            /lib/flows.ts
+          <code className="font-mono text-[13px] text-[var(--text)] bg-[var(--surface-2)] px-1.5 py-0.5 rounded border border-[var(--border)]">
+            lib/flows.ts
           </code>{" "}
-          and rendered client-side. Click any card to expand it to full-screen.
+          and rendered client‑side. Click any card to expand full‑screen.
         </p>
       </header>
       <FlowsGallery />

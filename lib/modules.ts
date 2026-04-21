@@ -36,7 +36,7 @@ export const modules: EpmModule[] = [
     dimensions: [
       { name: "Account", kind: "required" },
       { name: "Period", kind: "required" },
-      { name: "Year", kind: "required" },
+      { name: "Years", kind: "required", note: "Plural — must be named 'Years'" },
       { name: "Scenario", kind: "required" },
       { name: "Version", kind: "required" },
       { name: "Entity", kind: "required" },
