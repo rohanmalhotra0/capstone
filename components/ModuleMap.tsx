@@ -6,7 +6,6 @@ import {
   Controls,
   type Edge,
   MarkerType,
-  MiniMap,
   type Node,
   ReactFlow,
   type NodeMouseHandler,
@@ -292,15 +291,6 @@ export function ModuleMap() {
           gap={24}
           size={1}
           color="var(--border)"
-        />
-        <MiniMap
-          pannable
-          zoomable
-          nodeColor={(n) => {
-            const m = (n.data as ModuleNodeData | undefined)?.module;
-            return m?.color ?? "#4589ff";
-          }}
-          maskColor="rgba(11, 15, 26, 0.72)"
         />
         <Controls showInteractive={false} />
         <AtlasTutorial />
