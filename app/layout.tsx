@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { CommandPalette } from "@/components/CommandPalette";
+import { Chat } from "@/components/Chat";
 
 const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
@@ -47,6 +48,7 @@ export default function RootLayout({
         <div id="main-content" className="relative z-10">
           {children}
         </div>
+        <Chat />
       </body>
     </html>
   );
