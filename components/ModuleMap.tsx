@@ -46,16 +46,17 @@ const positions: Record<string, NodePosition> = {
 };
 
 // Workflow node positions — clustered around related modules, offset to the
-// edges so they frame the module graph without overlapping it.
+// edges so they frame the module graph without overlapping it. Cards are
+// 220px wide × ~110px tall, so we leave ~150px of vertical gap per slot.
 const workflowPositions: Record<string, NodePosition> = {
-  "data-movement": { x: 1320, y: 60 },
-  "budget-revisions": { x: 1320, y: 180 },
-  approvals: { x: 1320, y: 300 },
-  "ipm-insights": { x: 1320, y: 420 },
-  "capital-financials": { x: 1320, y: 540 },
-  "security-priority": { x: -240, y: 60 },
-  "bt-wizard": { x: -240, y: 340 },
-  "getting-started": { x: -240, y: 620 },
+  "data-movement": { x: 1280, y: 40 },
+  "budget-revisions": { x: 1280, y: 200 },
+  approvals: { x: 1280, y: 360 },
+  "ipm-insights": { x: 1280, y: 520 },
+  "capital-financials": { x: 1280, y: 680 },
+  "security-priority": { x: -320, y: 40 },
+  "bt-wizard": { x: -320, y: 340 },
+  "getting-started": { x: -320, y: 640 },
 };
 
 // Which modules each workflow "touches" — drives the dashed affinity lines.

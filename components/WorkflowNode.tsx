@@ -11,6 +11,8 @@ export interface WorkflowNodeData {
   [key: string]: unknown;
 }
 
+// Each side exposes BOTH a source and a target handle so edges can connect
+// in any direction — mirrors ModuleNode.
 const sides: { pos: Position; side: "t" | "r" | "b" | "l" }[] = [
   { pos: Position.Top, side: "t" },
   { pos: Position.Right, side: "r" },
@@ -27,13 +29,14 @@ export function WorkflowNode({ data, selected }: NodeProps) {
 
   return (
     <div
-      className="group relative w-[180px] rounded-lg border bg-[var(--surface)] transition-all cursor-pointer"
+      className="group relative w-[220px] rounded-xl border transition-all cursor-grab active:cursor-grabbing"
       style={{
+        background:
+          "linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%)",
         borderColor: selected ? accent : "var(--border)",
-        borderStyle: "dashed",
         boxShadow: selected
-          ? `0 0 0 1px ${accent}, 0 10px 20px -12px ${accent}66`
-          : "0 6px 14px -10px rgba(0,0,0,0.45)",
+          ? `0 0 0 1px ${accent}, 0 18px 36px -18px ${accent}66`
+          : "0 12px 24px -12px rgba(0,0,0,0.5)",
       }}
     >
       {sides.map(({ pos, side }) => (
@@ -44,8 +47,8 @@ export function WorkflowNode({ data, selected }: NodeProps) {
             id={`${side}-s`}
             style={{
               background: accent,
-              width: 5,
-              height: 5,
+              width: 6,
+              height: 6,
               opacity: 0,
               pointerEvents: "none",
             }}
@@ -56,8 +59,8 @@ export function WorkflowNode({ data, selected }: NodeProps) {
             id={`${side}-t`}
             style={{
               background: accent,
-              width: 5,
-              height: 5,
+              width: 6,
+              height: 6,
               opacity: 0,
               pointerEvents: "none",
             }}
@@ -65,30 +68,34 @@ export function WorkflowNode({ data, selected }: NodeProps) {
         </span>
       ))}
 
-      <div className="flex items-start gap-2 p-2.5">
-        <span
-          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-[10px]"
-          style={{
-            background: `${accent}1f`,
-            color: accent,
-            border: `1px solid ${accent}40`,
-          }}
-        >
-          <GitBranch className="h-3 w-3" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-mono text-[9px] tabular-nums text-[var(--text-subtle)]">
-              {String(d.num).padStart(2, "0")}
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-subtle)]">
-              workflow
-            </span>
-          </div>
-          <div className="mt-0.5 text-[12px] font-medium leading-snug tracking-tight text-[var(--text)]">
+      {/* Top accent bar — dashed to subtly distinguish workflows from modules */}
+      <div
+        className="h-1 w-full rounded-t-xl"
+        style={{
+          background: `repeating-linear-gradient(90deg, ${accent} 0 8px, transparent 8px 12px)`,
+        }}
+      />
+
+      <div className="p-3.5">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[15px] font-semibold tracking-tight text-[var(--text)]">
             {short}
-          </div>
+          </span>
+          <span
+            className="flex items-center gap-1 font-mono text-[10px] px-1.5 py-0.5 rounded shrink-0"
+            style={{
+              background: `${accent}22`,
+              color: accent,
+              border: `1px solid ${accent}44`,
+            }}
+          >
+            <GitBranch className="h-2.5 w-2.5" />
+            FLOW
+          </span>
         </div>
+        <p className="mt-1.5 text-[11.5px] leading-snug text-[var(--text-muted)] line-clamp-2">
+          {f.caption}
+        </p>
       </div>
     </div>
   );
