@@ -127,7 +127,7 @@ export function EpmAtlas() {
                 EPM Atlas
               </div>
               <p className="mt-1 text-[11px] leading-snug text-[var(--text-muted)]">
-                Modules and workflows in one place. Jump anywhere.
+                Module maps and workflows in one place. Jump anywhere.
               </p>
             </div>
 
@@ -141,12 +141,15 @@ export function EpmAtlas() {
               )}
             >
               <Workflow className="h-3.5 w-3.5 shrink-0" />
-              <span>Full Module Map</span>
+              <span>Atlas</span>
+              <span className="ml-auto font-mono text-[10px] text-[var(--text-subtle)]">
+                overview
+              </span>
             </button>
 
             <Section
               icon={<Network className="h-3 w-3" />}
-              label="Modules"
+              label="Module Maps"
               count={modules.length}
             >
               {modules.map((m) => {
