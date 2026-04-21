@@ -66,7 +66,7 @@ export function CommandPalette() {
       label: x.title,
       sub: x.caption,
       keywords: `${x.title} ${x.caption}`,
-      href: `/atlas?view=flow&f=${x.id}`,
+      href: `/atlas?f=${x.id}`,
     }));
     const g: Item[] = glossary.map((x) => ({
       id: `g-${x.term}`,

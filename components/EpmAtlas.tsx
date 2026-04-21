@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ChevronLeft,
@@ -10,30 +10,18 @@ import {
   Workflow,
 } from "lucide-react";
 import { ModuleMap } from "./ModuleMap";
-import { FlowChart } from "./FlowChart";
 import { modules } from "@/lib/modules";
-import { flows, getFlowById } from "@/lib/flows";
+import { flows } from "@/lib/flows";
 import { cn } from "@/lib/utils";
-
-type View = "map" | "flow";
 
 export function EpmAtlas() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [collapsed, setCollapsed] = useState(false);
 
-  const view: View = searchParams.get("view") === "flow" ? "flow" : "map";
-  const flowId = searchParams.get("f");
   const moduleId = searchParams.get("m");
   const integrationId = searchParams.get("i");
-  const activeFlow = flowId ? (getFlowById(flowId) ?? null) : null;
-
-  // If view=flow but invalid id, fall back to map view
-  useEffect(() => {
-    if (view === "flow" && flowId && !activeFlow) {
-      router.replace("/atlas", { scroll: false });
-    }
-  }, [view, flowId, activeFlow, router]);
+  const flowIdParam = searchParams.get("f");
 
   const pushParams = useCallback(
     (next: URLSearchParams) => {
@@ -55,23 +43,18 @@ export function EpmAtlas() {
   const selectFlow = useCallback(
     (id: string) => {
       const next = new URLSearchParams();
-      next.set("view", "flow");
       next.set("f", id);
       pushParams(next);
     },
     [pushParams],
   );
 
-  const showFullMap = useCallback(() => {
+  const showOverview = useCallback(() => {
     pushParams(new URLSearchParams());
   }, [pushParams]);
 
-  const activeKey = useMemo(() => {
-    if (view === "flow" && flowId) return `flow:${flowId}`;
-    if (moduleId) return `module:${moduleId}`;
-    if (integrationId) return `integration:${integrationId}`;
-    return "overview";
-  }, [view, flowId, moduleId, integrationId]);
+  const highlightFlowId = flowIdParam;
+  const isOverviewActive = !moduleId && !integrationId && !highlightFlowId;
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)] w-full">
@@ -96,11 +79,11 @@ export function EpmAtlas() {
         {collapsed ? (
           <div className="flex flex-col items-center gap-3 pt-14">
             <button
-              onClick={showFullMap}
-              aria-label="Module map"
+              onClick={showOverview}
+              aria-label="Atlas overview"
               className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-md transition-colors",
-                view === "map" && !moduleId && !integrationId
+                isOverviewActive
                   ? "bg-[var(--surface-2)] text-[var(--text)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]/60",
               )}
@@ -112,7 +95,7 @@ export function EpmAtlas() {
               aria-label="Workflows"
               className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-md transition-colors",
-                view === "flow"
+                highlightFlowId
                   ? "bg-[var(--surface-2)] text-[var(--text)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]/60",
               )}
@@ -127,15 +110,15 @@ export function EpmAtlas() {
                 EPM Atlas
               </div>
               <p className="mt-1 text-[11px] leading-snug text-[var(--text-muted)]">
-                Module maps and workflows in one place. Jump anywhere.
+                Modules and workflows on one canvas. Click anywhere on the map.
               </p>
             </div>
 
             <button
-              onClick={showFullMap}
+              onClick={showOverview}
               className={cn(
                 "w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm transition-colors",
-                activeKey === "overview"
+                isOverviewActive
                   ? "bg-[var(--surface-2)] text-[var(--text)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]/60",
               )}
@@ -143,7 +126,7 @@ export function EpmAtlas() {
               <Workflow className="h-3.5 w-3.5 shrink-0" />
               <span>Atlas</span>
               <span className="ml-auto font-mono text-[10px] text-[var(--text-subtle)]">
-                overview
+                top
               </span>
             </button>
 
@@ -153,7 +136,7 @@ export function EpmAtlas() {
               count={modules.length}
             >
               {modules.map((m) => {
-                const active = view === "map" && moduleId === m.id;
+                const active = !highlightFlowId && moduleId === m.id;
                 return (
                   <li key={m.id}>
                     <button
@@ -185,7 +168,7 @@ export function EpmAtlas() {
               count={flows.length}
             >
               {flows.map((f, i) => {
-                const active = view === "flow" && flowId === f.id;
+                const active = highlightFlowId === f.id;
                 return (
                   <li key={f.id}>
                     <button
@@ -208,24 +191,14 @@ export function EpmAtlas() {
             </Section>
 
             <div className="mt-6 px-2 text-[10px] leading-relaxed text-[var(--text-subtle)]">
-              Selections update the URL — share links with <code>?m=</code> for a module or <code>?view=flow&f=</code> for a workflow.
+              Share links with <code>?m=</code> for a module or <code>?f=</code> for a workflow.
             </div>
           </div>
         )}
       </aside>
 
       <main className="flex-1 relative min-w-0">
-        {view === "flow" && activeFlow ? (
-          <FlowView
-            key={activeFlow.id}
-            title={activeFlow.title}
-            caption={activeFlow.caption}
-            whyItMatters={activeFlow.whyItMatters}
-            mermaid={activeFlow.mermaid}
-          />
-        ) : (
-          <ModuleMap />
-        )}
+        <ModuleMap />
       </main>
     </div>
   );
@@ -258,43 +231,3 @@ function Section({
   );
 }
 
-function FlowView({
-  title,
-  caption,
-  whyItMatters,
-  mermaid,
-}: {
-  title: string;
-  caption: string;
-  whyItMatters: string;
-  mermaid: string;
-}) {
-  return (
-    <div className="flex flex-col h-full">
-      <header className="border-b border-[var(--border)] px-6 py-5 bg-[var(--surface)]/40">
-        <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-subtle)] mb-1">
-          Workflow
-        </div>
-        <h2 className="text-xl font-semibold tracking-tight text-[var(--text)]">
-          {title}
-        </h2>
-        <p className="mt-1.5 text-sm text-[var(--text-muted)] leading-relaxed max-w-3xl">
-          {caption}
-        </p>
-      </header>
-      <div className="flex-1 overflow-auto p-6">
-        <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-2)]/30 p-6 flex items-center justify-center min-h-full">
-          <FlowChart chart={mermaid} />
-        </div>
-      </div>
-      <footer className="border-t border-[var(--border)] px-6 py-3.5 bg-[var(--surface-2)]/40">
-        <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-subtle)] mr-2">
-          Why it matters —
-        </span>
-        <span className="text-xs text-[var(--text-muted)] leading-relaxed">
-          {whyItMatters}
-        </span>
-      </footer>
-    </div>
-  );
-}
