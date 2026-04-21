@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@next/swc-darwin-arm64": "^15.5.15",
     "@xyflow/react": "^12.10.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -17,6 +16,7 @@
     "lucide-react": "^1.8.0",
     "mermaid": "^11.14.0",
     "next": "15.5.15",
+    "openai": "^6.34.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwind-merge": "^3.5.0"
