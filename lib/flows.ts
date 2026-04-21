@@ -112,18 +112,19 @@ export const flows: Flow[] = [
       "Integrated with Oracle Budgetary Control. Each step is backed by a named business rule.",
     whyItMatters:
       "Requires Hybrid Essbase + own COA + single currency + Control Budget Source = 'EPM Financials module' (NOT 'Hyperion Planning'). Max 30 active revisions.",
-    mermaid: `flowchart TD
+    mermaid: `%%{init: {'flowchart': {'nodeSpacing': 55, 'rankSpacing': 75, 'curve': 'basis'}, 'themeVariables': {'fontSize': '15px'}}}%%
+flowchart TD
     S1["1. Build Original Budget<br/>(Financials plan)"] --> S2["2. Push to Budgetary Control<br/>(initial load)"]
     S2 --> S3["3. Prepare for Revisions<br/><i>once per year · copies to Adopted Budget</i>"]
     S3 --> S4["4. Create and Populate Revision<br/><i>optionally seed with % of approved</i>"]
     S4 --> S5["5. Enter Revisions<br/>(planner input)"]
-    S5 --> S6["6. Share Revision<br/>(optional collaboration)"]
+    S5 --> S6["6. Share Revision<br/><i>optional collaboration</i>"]
+    S5 -. "skip collab" .-> S7
     S6 --> S7["7. Funds Check<br/><i>async for large cells → Get Funds Results</i>"]
-    S5 --> S7
     S7 --> S8{"Approval<br/>required?"}
+    S8 -- "No" --> S9["9. Funds Reserve<br/><i>pushes delta + clears revision</i>"]
     S8 -- "Yes" --> S8a["8. Approval workflow<br/>(Promote → Approve)"]
-    S8 -- "No" --> S9
-    S8a --> S9["9. Funds Reserve<br/><i>pushes delta + clears revision</i>"]
+    S8a --> S9
     S9 --> END["Revision posted to<br/>Budgetary Control"]
 
     classDef start fill:#78a9ff,stroke:#78a9ff,color:#0a0a0b;

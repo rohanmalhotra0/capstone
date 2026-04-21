@@ -8,6 +8,7 @@ export interface WorkflowNodeData {
   flow: Flow;
   num: number;
   accent?: string;
+  scale?: number;
   [key: string]: unknown;
 }
 
@@ -43,7 +44,7 @@ export function WorkflowNode({ data }: NodeProps) {
       ))}
 
       <div className="nodrag nowheel">
-        <FlowChart chart={f.mermaid} />
+        <FlowChart chart={f.mermaid} scale={d.scale} />
       </div>
     </div>
   );

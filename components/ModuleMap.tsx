@@ -47,20 +47,32 @@ const positions: Record<string, NodePosition> = {
 
 // Workflow positions — 2 columns × 4 rows. Each chart can be ~500px wide
 // and ~900px tall. Col gap = 700px, row gap = 1100px. Tutorial reads
-// left-to-right, top-to-bottom.
+// left-to-right, top-to-bottom. Approvals is rendered at 3× scale and
+// occupies its own full-width row so it doesn't collide with neighbors.
 const WF_COL_A = -100;
 const WF_COL_B = 600;
 const WF_ROW_START = 700;
 const WF_ROW_GAP = 1100;
+
+// Extra vertical budget for the 3×-scaled approvals chart.
+const APPROVALS_ROW_Y = WF_ROW_START + WF_ROW_GAP * 2;
+const APPROVALS_ROW_HEIGHT = 1900;
+const POST_APPROVALS_Y = APPROVALS_ROW_Y + APPROVALS_ROW_HEIGHT;
+
 const workflowPositions: Record<string, NodePosition> = {
   "data-movement":      { x: WF_COL_A, y: WF_ROW_START },
   "security-priority":  { x: WF_COL_B, y: WF_ROW_START },
   "bt-wizard":          { x: WF_COL_A, y: WF_ROW_START + WF_ROW_GAP },
   "budget-revisions":   { x: WF_COL_B, y: WF_ROW_START + WF_ROW_GAP },
-  approvals:            { x: WF_COL_A, y: WF_ROW_START + WF_ROW_GAP * 2 },
-  "ipm-insights":       { x: WF_COL_B, y: WF_ROW_START + WF_ROW_GAP * 2 },
-  "capital-financials": { x: WF_COL_A, y: WF_ROW_START + WF_ROW_GAP * 3 },
-  "getting-started":    { x: WF_COL_B, y: WF_ROW_START + WF_ROW_GAP * 3 },
+  approvals:            { x: WF_COL_A, y: APPROVALS_ROW_Y },
+  "ipm-insights":       { x: WF_COL_A, y: POST_APPROVALS_Y },
+  "capital-financials": { x: WF_COL_B, y: POST_APPROVALS_Y },
+  "getting-started":    { x: WF_COL_A, y: POST_APPROVALS_Y + WF_ROW_GAP },
+};
+
+// Per-flow render scale on the atlas canvas. Defaults to 1× when absent.
+const workflowScales: Record<string, number> = {
+  approvals: 3,
 };
 
 // Which modules each workflow "touches" — used by the detail panel's
@@ -154,6 +166,7 @@ export function ModuleMap() {
           flow: f,
           num: idx + 1,
           accent: relatedModule?.color ?? "#8a8d98",
+          scale: workflowScales[f.id],
         },
       };
     });

@@ -5,11 +5,14 @@ import { useEffect, useId, useRef, useState } from "react";
 interface FlowChartProps {
   chart: string;
   className?: string;
+  /** Multiplier applied to the rendered SVG's intrinsic width/height. */
+  scale?: number;
 }
 
-export function FlowChart({ chart, className }: FlowChartProps) {
+export function FlowChart({ chart, className, scale = 1 }: FlowChartProps) {
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const uid = useId().replace(/:/g, "");
   const idRef = useRef(`mmd-${uid}`);
 
@@ -76,6 +79,20 @@ export function FlowChart({ chart, className }: FlowChartProps) {
     };
   }, [chart]);
 
+  // Post-render: scale the injected <svg> by multiplying its intrinsic
+  // width/height. Mermaid outputs `max-width: …px` so we also clear that.
+  useEffect(() => {
+    if (!svg || scale === 1) return;
+    const svgEl = containerRef.current?.querySelector("svg");
+    if (!svgEl) return;
+    const w = parseFloat(svgEl.getAttribute("width") ?? "0");
+    const h = parseFloat(svgEl.getAttribute("height") ?? "0");
+    if (w) svgEl.setAttribute("width", String(w * scale));
+    if (h) svgEl.setAttribute("height", String(h * scale));
+    svgEl.style.maxWidth = "none";
+    svgEl.style.height = "auto";
+  }, [svg, scale]);
+
   if (error) {
     return (
       <div
@@ -104,6 +121,7 @@ export function FlowChart({ chart, className }: FlowChartProps) {
 
   return (
     <div
+      ref={containerRef}
       className={"mermaid-container w-full overflow-auto " + (className ?? "")}
       dangerouslySetInnerHTML={{ __html: svg }}
     />

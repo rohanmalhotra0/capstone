@@ -108,6 +108,10 @@ export function AtlasTutorial() {
   const [step, setStep] = useState(0);
   const { fitView, setCenter, getNode } = useReactFlow();
 
+  // Cap zoom-in on workflow charts. Matches ReactFlow's maxZoom so fitView
+  // won't try to zoom further than the canvas allows.
+  const WORKFLOW_MAX_ZOOM = 1.8;
+
   // Auto-show on first visit
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -121,18 +125,28 @@ export function AtlasTutorial() {
     (nodeId: string) => {
       const node = getNode(nodeId);
       if (!node) return;
+      const isWorkflow = nodeId.startsWith("wf:");
+
+      if (isWorkflow) {
+        // Fit the whole workflow chart — zoom auto-adapts if the diagram
+        // grows, so big flows (Budget Revisions, Getting Started) frame
+        // correctly without cropping or overlap.
+        fitView({
+          nodes: [{ id: nodeId }],
+          padding: 0.12,
+          maxZoom: WORKFLOW_MAX_ZOOM,
+          duration: 600,
+        });
+        return;
+      }
+
       const w = node.measured?.width ?? 220;
       const h = node.measured?.height ?? 100;
       const x = node.position.x + w / 2;
       const y = node.position.y + h / 2;
-      const isWorkflow = nodeId.startsWith("wf:");
-      // Max zoom on workflows, shift center down so the chart is visible
-      // in the middle of the viewport (not stuck at the top)
-      const zoom = isWorkflow ? 1.8 : 1.0;
-      const yOffset = isWorkflow ? 200 : 0;
-      setCenter(x, y + yOffset, { zoom, duration: 600 });
+      setCenter(x, y, { zoom: 1.0, duration: 600 });
     },
-    [getNode, setCenter],
+    [getNode, setCenter, fitView],
   );
 
   const focusModuleCluster = useCallback(() => {
