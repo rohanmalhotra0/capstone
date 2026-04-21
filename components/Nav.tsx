@@ -11,6 +11,7 @@ const links = [
   { href: "/atlas", label: "EPM Atlas", num: "01" },
   { href: "/simulator", label: "Simulator", num: "02" },
   { href: "/glossary", label: "Glossary", num: "03" },
+  { href: "/chat", label: "Chat", num: "04" },
 ];
 
 function KbdHint() {

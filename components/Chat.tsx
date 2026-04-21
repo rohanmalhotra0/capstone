@@ -1,19 +1,24 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { MessageSquare, X, Send, Loader2, Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import {
+  MessageSquare,
+  X,
+  Send,
+  Loader2,
+  Sparkles,
+  Maximize2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-
-type ChatRole = "user" | "assistant";
-type Message = { id: string; role: ChatRole; content: string };
-
-const STORAGE_KEY = "epm-chat-history-v1";
-
-function newId() {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-}
+import {
+  useChatStore,
+  sendMessage,
+  stopStreaming,
+  clearChat,
+} from "@/lib/chat-store";
+import { MessageBubble } from "./ChatMessage";
 
 const SUGGESTIONS = [
   "What's the difference between Data Map, Smart Push, and Data Integration?",
@@ -23,46 +28,20 @@ const SUGGESTIONS = [
 ];
 
 export function Chat() {
+  const pathname = usePathname();
+  const { messages, streaming, error } = useChatStore();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [streaming, setStreaming] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Restore history from localStorage.
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as Message[];
-        if (Array.isArray(parsed)) setMessages(parsed);
-      }
-    } catch {
-      // ignore corrupted storage
-    }
-  }, []);
-
-  // Persist messages.
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-    } catch {
-      // ignore
-    }
-  }, [messages]);
-
-  // Auto-scroll on new content.
   useEffect(() => {
     if (!open) return;
     const el = scrollRef.current;
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, open, streaming]);
 
-  // Focus input when opened.
   useEffect(() => {
     if (open) {
       const t = setTimeout(() => inputRef.current?.focus(), 60);
@@ -70,7 +49,6 @@ export function Chat() {
     }
   }, [open]);
 
-  // Close on Escape.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -80,107 +58,28 @@ export function Chat() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const send = useCallback(
-    async (text: string) => {
+  const submit = useCallback(
+    (text: string) => {
       const trimmed = text.trim();
       if (!trimmed || streaming) return;
-
-      setError(null);
-      const userMsg: Message = { id: newId(), role: "user", content: trimmed };
-      const assistantId = newId();
-      const assistantMsg: Message = {
-        id: assistantId,
-        role: "assistant",
-        content: "",
-      };
-
-      const next = [...messages, userMsg, assistantMsg];
-      setMessages(next);
       setInput("");
-      setStreaming(true);
-
-      const controller = new AbortController();
-      abortRef.current = controller;
-
-      try {
-        const res = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          signal: controller.signal,
-          body: JSON.stringify({
-            messages: next
-              .filter((m) => m.id !== assistantId)
-              .map(({ role, content }) => ({ role, content })),
-          }),
-        });
-
-        if (!res.ok || !res.body) {
-          const errText = await res.text().catch(() => "");
-          throw new Error(
-            errText || `Request failed with status ${res.status}`,
-          );
-        }
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let acc = "";
-
-        while (true) {
-          const { value, done } = await reader.read();
-          if (done) break;
-          acc += decoder.decode(value, { stream: true });
-          setMessages((prev) =>
-            prev.map((m) =>
-              m.id === assistantId ? { ...m, content: acc } : m,
-            ),
-          );
-        }
-      } catch (err) {
-        if ((err as Error).name === "AbortError") {
-          setMessages((prev) =>
-            prev.map((m) =>
-              m.id === assistantId
-                ? { ...m, content: m.content + "\n\n_(stopped)_" }
-                : m,
-            ),
-          );
-        } else {
-          const msg = err instanceof Error ? err.message : "Unknown error.";
-          setError(msg);
-          setMessages((prev) => prev.filter((m) => m.id !== assistantId));
-        }
-      } finally {
-        setStreaming(false);
-        abortRef.current = null;
-      }
+      void sendMessage(trimmed);
     },
-    [messages, streaming],
+    [streaming],
   );
-
-  const stop = useCallback(() => {
-    abortRef.current?.abort();
-  }, []);
-
-  const clear = useCallback(() => {
-    setMessages([]);
-    setError(null);
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // ignore
-    }
-  }, []);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      send(input);
+      submit(input);
     }
   };
 
+  // Hide the popup entirely on the dedicated full-screen chat page.
+  if (pathname === "/chat") return null;
+
   return (
     <>
-      {/* Launcher button */}
       <button
         aria-label={open ? "Close EPM Assistant" : "Open EPM Assistant"}
         onClick={() => setOpen((v) => !v)}
@@ -198,7 +97,6 @@ export function Chat() {
         )}
       </button>
 
-      {/* Panel */}
       <div
         role="dialog"
         aria-label="EPM Assistant"
@@ -211,7 +109,6 @@ export function Chat() {
             : "pointer-events-none translate-y-2 opacity-0",
         )}
       >
-        {/* Header */}
         <header className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--surface-2)] px-4 py-3">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-[var(--primary)]" />
@@ -225,9 +122,18 @@ export function Chat() {
             </div>
           </div>
           <div className="flex items-center gap-1">
+            <Link
+              href="/chat"
+              onClick={() => setOpen(false)}
+              title="Open full-screen chat"
+              aria-label="Open full-screen chat"
+              className="rounded p-1 text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+            </Link>
             {messages.length > 0 && (
               <button
-                onClick={clear}
+                onClick={clearChat}
                 className="rounded px-2 py-1 text-xs text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
               >
                 Clear
@@ -243,7 +149,6 @@ export function Chat() {
           </div>
         </header>
 
-        {/* Messages */}
         <div
           ref={scrollRef}
           className="flex-1 overflow-y-auto px-4 py-3 text-sm"
@@ -262,7 +167,7 @@ export function Chat() {
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s}
-                    onClick={() => send(s)}
+                    onClick={() => submit(s)}
                     className="rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-left text-[13px] text-[var(--text)] transition-colors hover:border-[var(--border-strong)] hover:bg-[var(--surface)]"
                   >
                     {s}
@@ -291,7 +196,6 @@ export function Chat() {
           )}
         </div>
 
-        {/* Composer */}
         <div className="border-t border-[var(--border)] bg-[var(--surface-2)] p-3">
           <div className="flex items-end gap-2">
             <textarea
@@ -307,14 +211,14 @@ export function Chat() {
             />
             {streaming ? (
               <button
-                onClick={stop}
+                onClick={stopStreaming}
                 className="flex h-[38px] items-center justify-center rounded-md border border-[var(--border-strong)] bg-[var(--surface)] px-3 text-xs text-[var(--text)] hover:bg-[var(--bg-elev)]"
               >
                 Stop
               </button>
             ) : (
               <button
-                onClick={() => send(input)}
+                onClick={() => submit(input)}
                 disabled={!input.trim()}
                 aria-label="Send"
                 className="flex h-[38px] w-[38px] items-center justify-center rounded-md bg-[var(--primary)] text-white transition-colors hover:bg-[var(--primary-hover)] disabled:cursor-not-allowed disabled:opacity-40"
@@ -330,70 +234,5 @@ export function Chat() {
         </div>
       </div>
     </>
-  );
-}
-
-function MessageBubble({
-  role,
-  content,
-}: {
-  role: ChatRole;
-  content: string;
-}) {
-  const isUser = role === "user";
-  return (
-    <div
-      className={cn(
-        "flex w-full",
-        isUser ? "justify-end" : "justify-start",
-      )}
-    >
-      <div
-        className={cn(
-          "max-w-[85%] rounded-lg px-3 py-2 text-[13px] leading-relaxed",
-          isUser
-            ? "bg-[var(--primary)] text-white whitespace-pre-wrap"
-            : "bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]",
-        )}
-      >
-        {isUser ? (
-          content || <span className="text-[var(--text-subtle)]">…</span>
-        ) : content ? (
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-              ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-0.5">{children}</ul>,
-              ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-0.5">{children}</ol>,
-              li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-              strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
-              em: ({ children }) => <em className="italic">{children}</em>,
-              code: ({ children, className }) => {
-                const isBlock = className?.includes("language-");
-                return isBlock ? (
-                  <code className="block bg-[var(--surface-1)] border border-[var(--border)] rounded p-2 text-[12px] font-mono overflow-x-auto my-2">{children}</code>
-                ) : (
-                  <code className="bg-[var(--surface-1)] border border-[var(--border)] rounded px-1 text-[12px] font-mono">{children}</code>
-                );
-              },
-              pre: ({ children }) => <pre className="my-2">{children}</pre>,
-              h1: ({ children }) => <h1 className="font-semibold text-[15px] mt-3 mb-1">{children}</h1>,
-              h2: ({ children }) => <h2 className="font-semibold text-[14px] mt-3 mb-1">{children}</h2>,
-              h3: ({ children }) => <h3 className="font-semibold mt-2 mb-1">{children}</h3>,
-              a: ({ href, children }) => (
-                <a href={href} target="_blank" rel="noopener noreferrer" className="underline text-[var(--primary)]">{children}</a>
-              ),
-              blockquote: ({ children }) => (
-                <blockquote className="border-l-2 border-[var(--border)] pl-3 text-[var(--text-subtle)] my-2">{children}</blockquote>
-              ),
-            }}
-          >
-            {content}
-          </ReactMarkdown>
-        ) : (
-          <span className="text-[var(--text-subtle)]">…</span>
-        )}
-      </div>
-    </div>
   );
 }
