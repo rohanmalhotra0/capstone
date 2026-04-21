@@ -37,28 +37,27 @@ interface NodePosition {
   y: number;
 }
 
-// Module positions — tight cluster in the center of the canvas
+// Module positions — cluster at the top of the canvas
 const positions: Record<string, NodePosition> = {
-  "strategic-modeling": { x: 0,   y: 400 },
-  financials:          { x: 320, y: 400 },
-  workforce:           { x: 80,  y: 620 },
-  capital:             { x: 560, y: 620 },
-  projects:            { x: 320, y: 820 },
+  "strategic-modeling": { x: 0,   y: 0 },
+  financials:          { x: 300, y: 0 },
+  workforce:           { x: 80,  y: 180 },
+  capital:             { x: 520, y: 180 },
+  projects:            { x: 300, y: 360 },
 };
 
-// Workflow positions — flowcharts arranged around the module cluster.
-// Row 1 (top):        y = 0,   three across
-// Row 2 (flanking):   y = 520, two on each side of modules
-// Row 3 (bottom):     y = 1060, three across
+// Workflow positions — two columns, generous vertical spacing (~700px per row)
+// to prevent overlap. Ordered to match the tutorial walkthrough sequence.
+// Col A: x=0, Col B: x=650
 const workflowPositions: Record<string, NodePosition> = {
-  "getting-started":    { x: -200, y:    0 },
-  "security-priority":  { x:  320, y:    0 },
-  "data-movement":      { x:  840, y:    0 },
-  "bt-wizard":          { x: -200, y:  520 },
-  "ipm-insights":       { x:  840, y:  520 },
-  "budget-revisions":   { x: -200, y: 1060 },
-  approvals:            { x:  320, y: 1060 },
-  "capital-financials": { x:  840, y: 1060 },
+  "data-movement":      { x:    0, y:  600 },
+  "security-priority":  { x:  650, y:  600 },
+  "bt-wizard":          { x:    0, y: 1300 },
+  "budget-revisions":   { x:  650, y: 1300 },
+  approvals:            { x:    0, y: 2000 },
+  "ipm-insights":       { x:  650, y: 2000 },
+  "capital-financials": { x:    0, y: 2700 },
+  "getting-started":    { x:  650, y: 2700 },
 };
 
 // Which modules each workflow "touches" — used by the detail panel's
