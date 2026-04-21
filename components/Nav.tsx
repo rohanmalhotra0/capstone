@@ -52,7 +52,7 @@ function KbdHint() {
 export function Nav() {
   const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[var(--border)] bg-[var(--bg)]/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-[var(--bg)]/85 backdrop-blur-md">
       <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="flex items-baseline gap-2 group">
           <span className="text-[13px] font-semibold tracking-tight text-[var(--text)]">

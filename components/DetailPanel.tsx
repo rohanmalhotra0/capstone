@@ -27,13 +27,18 @@ export function DetailPanel({
   const panelRef = React.useRef<HTMLDivElement>(null);
   const lastFocused = React.useRef<HTMLElement | null>(null);
 
+  const onCloseRef = React.useRef(onClose);
+  React.useEffect(() => {
+    onCloseRef.current = onClose;
+  });
+
   React.useEffect(() => {
     if (!open) return;
     lastFocused.current = document.activeElement as HTMLElement | null;
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose();
+        onCloseRef.current();
         return;
       }
       // Focus trap
@@ -69,7 +74,7 @@ export function DetailPanel({
       window.removeEventListener("keydown", onKey);
       lastFocused.current?.focus?.();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   return (
     <AnimatePresence>
