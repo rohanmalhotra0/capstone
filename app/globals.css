@@ -18,6 +18,30 @@
   --warning: #f1c21b;
   --success: #42be65;
   --hair: rgba(255, 255, 255, 0.06);
+
+  /* Planning Sandbox */
+  --sandbox-card-bg: #0e0f12;
+  --sandbox-sidebar-bg: #0c0d10;
+  --sandbox-divider: #1e1f25;
+  --sandbox-divider-soft: #18191e;
+  --sandbox-parent-row: #111218;
+  --sandbox-formula-row: rgba(15, 21, 37, 0.4);
+  --sandbox-row-hover: #14151a;
+  --sandbox-chip-bg: #1a1b20;
+  --sandbox-chip-border: #2a2b32;
+  --sandbox-input-bg: #1a1b20;
+  --sandbox-input-bg-focus: #12131a;
+  --sandbox-input-border: #2a2b32;
+  --sandbox-input-text: #ededef;
+  --sandbox-heading: #c8c9cf;
+  --sandbox-formula-text: #78a9ff;
+  --sandbox-formula-accent: #4589ff;
+  --sandbox-formula-badge-bg: #1a2744;
+  --sandbox-formula-badge-text: #4589ff;
+  --sandbox-dim-hover-bg: #16171c;
+  --sandbox-total: #d4a017;
+  --sandbox-total-dim: #b8930e;
+  --sandbox-success: #42be65;
 }
 
 .light {
@@ -34,6 +58,30 @@
   --primary-hover: #0029c9;
   --accent: #3c3a32;
   --hair: rgba(0, 0, 0, 0.08);
+
+  /* Planning Sandbox */
+  --sandbox-card-bg: #ffffff;
+  --sandbox-sidebar-bg: #faf8f2;
+  --sandbox-divider: #ebe7dd;
+  --sandbox-divider-soft: #f1ede4;
+  --sandbox-parent-row: #faf8f2;
+  --sandbox-formula-row: rgba(15, 60, 255, 0.05);
+  --sandbox-row-hover: #f5f2ea;
+  --sandbox-chip-bg: #ffffff;
+  --sandbox-chip-border: #c9c4b6;
+  --sandbox-input-bg: #ffffff;
+  --sandbox-input-bg-focus: #f7f5f0;
+  --sandbox-input-border: #c9c4b6;
+  --sandbox-input-text: #111114;
+  --sandbox-heading: #1b1b20;
+  --sandbox-formula-text: #0f3cff;
+  --sandbox-formula-accent: #0029c9;
+  --sandbox-formula-badge-bg: #e6ecff;
+  --sandbox-formula-badge-text: #0029c9;
+  --sandbox-dim-hover-bg: #f0ede6;
+  --sandbox-total: #a3730a;
+  --sandbox-total-dim: #8a5e08;
+  --sandbox-success: #2e7d32;
 }
 
 @theme inline {
