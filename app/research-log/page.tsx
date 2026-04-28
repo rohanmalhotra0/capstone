@@ -43,9 +43,9 @@ export default function ResearchLogPage() {
       </p>
 
       <div className="mt-12 space-y-14">
-        {entries.map((entry) => (
+        {entries.map((entry, idx) => (
           <article
-            key={entry.date}
+            key={entry.id ?? entry.date}
             className="border-t border-[var(--border)] pt-10"
           >
             <header className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
@@ -53,6 +53,11 @@ export default function ResearchLogPage() {
                 <CalendarDays className="h-3.5 w-3.5" aria-hidden />
                 <time dateTime={entry.date}>{formatDate(entry.date)}</time>
               </div>
+              {idx === 0 && (
+                <span className="rounded-full bg-[var(--primary)]/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.14em] text-[var(--primary)]">
+                  Latest
+                </span>
+              )}
               {entry.tags && entry.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">
                   {entry.tags.map((t) => (

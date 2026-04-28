@@ -8,6 +8,8 @@ export type LogSource = {
 };
 
 export type LogEntry = {
+  // Stable id for React keys — falls back to `date` when omitted.
+  id?: string;
   date: string; // ISO YYYY-MM-DD
   title: string;
   summary: string;
@@ -19,6 +21,56 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-04-28-pm",
+    date: "2026-04-28",
+    title: "26.04 deep dive — AI Reconciliation Agent + Analytics Images",
+    summary:
+      "Supplemental afternoon pass on the 26.04 release. Focus today: the ARCS AI agent (Reconciliation Assignment + Transaction Matching Assistance), Analytics Images in Narrative Reporting, and the Smart View Strategic Modelling refresh.",
+    bullets: [
+      "ARCS now has an EPM AI Reconciliation Agent — two flagship capabilities: Reconciliation Assignment Assistance and Transaction Matching Assistance.",
+      "Reconciliation Assignment Assistance uses ML trained on your historical reconciliation data to predict attribute values automatically — admins stop hand-tagging every reconciliation.",
+      "Transaction Matching Assistance predicts likely matches with a confidence score. Reviewers confirm or discard — only the exceptions need manual matching.",
+      "Narrative Reporting Enterprise can now embed Oracle Analytics Cloud (OAC) dashboard canvases as static, refreshable Analytics Images — live dashboards inside report packages.",
+      "Smart View Strategic Modelling extension got a UX refresh — modelling flexibility improvements directly in Excel.",
+      "EPM Assistants slot into AI Agent Studio — first-class agentic surface across Planning, FCCS, ARCS, Narrative Reporting.",
+      "Pattern across the release: Oracle is leaning hard on 'predict, don't ask' — AI fills in attributes, matches, and suggested entries instead of dumping more forms on the user.",
+    ],
+    sources: [
+      {
+        label: "Oracle blog — EPM AI Reconciliation Agent (Assignment + Matching Assistance)",
+        href: "https://blogs.oracle.com/proactivesupportepm/epm-account-reconciliation-update-epm-ai-reconciliation-agent-reconciliation-assignment-assistance-and-transaction-matching-assistance",
+      },
+      {
+        label: "Oracle Readiness — Using EPM Assistants with AI Agent Studio (26.04)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44390.htm",
+      },
+      {
+        label: "Oracle Readiness — Analytics Images in Reports (26.04)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f42497.htm",
+      },
+      {
+        label: "Oracle Fusion Cloud EPM — AI feature index",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmai/",
+      },
+      {
+        label: "James & Monroe — AI in Oracle EPM and ERP: What's Real in 2026",
+        href: "https://jamesandmonroe.com/blog/oracle-is-delivering-ai-as-part-of-the-oracle-fusion-cloud-applications-suite-quarterly-updates-and-that-means-exciting-changes-are-in-store-for-oracle-cloud-epm-and-erp/",
+      },
+    ],
+    videos: [
+      {
+        label: "Oracle EPM — official 'EPM Tutorials' YouTube channel",
+        href: "https://www.youtube.com/OracleEpmBiTutorials",
+      },
+      {
+        label: "Oracle Cloud EPM Account Reconciliation overview",
+        href: "https://www.oracle.com/performance-management/account-reconciliation/",
+      },
+    ],
+    tags: ["26.04", "AI Agent", "ARCS", "Narrative Reporting", "Smart View"],
+  },
+  {
+    id: "2026-04-28-am",
     date: "2026-04-28",
     title: "Oracle EPM Cloud 26.04 — monthly cadence resumes",
     summary:
