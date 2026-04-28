@@ -32,6 +32,7 @@ const pages: Item[] = [
   { id: "p-atlas", kind: "page", label: "EPM Atlas", sub: "/atlas", keywords: "atlas modules flows flowcharts workflows map graph learn", href: "/atlas" },
   { id: "p-simulator", kind: "page", label: "Approvals Simulator", sub: "/simulator", keywords: "approvals simulator state machine", href: "/simulator" },
   { id: "p-glossary", kind: "page", label: "Glossary", sub: "/glossary", keywords: "glossary terms definitions", href: "/glossary" },
+  { id: "p-research-log", kind: "page", label: "Daily Research Log", sub: "/research-log", keywords: "research log news daily updates release notes whats new", href: "/research-log" },
 ];
 
 export function CommandPalette() {
