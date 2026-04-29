@@ -21,6 +21,60 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-04-29-am",
+    date: "2026-04-29",
+    title: "EPM Assistants + AI Agent Studio: a closer look",
+    summary:
+      "Day-after follow-up on 26.04. Today's focus: Oracle's EPM Assistants — preconfigured JSON agent definitions you import into AI Agent Studio — plus the GA of Predictive Cash Forecasting's ERP integration.",
+    bullets: [
+      "EPM Assistants ship as JSON blueprints. You import them into AI Agent Studio, point them at your Cloud EPM REST endpoints, and you get GenAI agents that can read Planning, FCCS, ARCS, and Narrative Reporting data without building tool plumbing yourself.",
+      "AI Agent Studio is bundled at no extra charge with Fusion Cloud Apps — same developer surface used for ERP/HCM/SCM agents, so EPM teams aren't on a side track.",
+      "The Planning Agent in particular handles natural-language variance questions ('why did travel jump in Q1?'), what-if scenarios, and event-driven predictions on Fusion financial + operational data.",
+      "Predictive Cash Forecasting → Oracle Cloud ERP integration is now GA (was Early Adopter in 25.07). Pre-seeded Data Integration pipelines pull AR / AP / Cash Management actuals automatically.",
+      "Drill-through goes from EPM all the way to ERP analytical views and individual transactions — handy for explaining why a forecast moved.",
+      "Pre-req: EPM Enterprise subscription, plus ~18 months of historical AR transactions for the ML model to train cleanly.",
+      "Heads-up from community posts: 26.04 ships Essbase 21c fixes for Planning / FCCS / FreeForm / PCM / Tax — worth re-running cube validations after the test-pod refresh.",
+    ],
+    sources: [
+      {
+        label: "Oracle Readiness — Using EPM Assistants with AI Agent Studio (26.04)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44390.htm",
+      },
+      {
+        label: "Oracle Readiness — Predictive Cash Forecasting: ERP integration (GA)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44233.htm",
+      },
+      {
+        label: "Oracle Fusion Cloud EPM — Features with AI",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmai/",
+      },
+      {
+        label: "James & Monroe — AI in Oracle EPM and ERP: What's Real in 2026",
+        href: "https://jamesandmonroe.com/blog/oracle-is-delivering-ai-as-part-of-the-oracle-fusion-cloud-applications-suite-quarterly-updates-and-that-means-exciting-changes-are-in-store-for-oracle-cloud-epm-and-erp/",
+      },
+      {
+        label: "Oracle Fusion Insider — How AI agents work in your ERP and EPM",
+        href: "https://blogs.oracle.com/fusioninsider/see-how-ai-agents-will-work-in-your-erp-and-epm",
+      },
+    ],
+    videos: [
+      {
+        label: "Planning AI Agent in Oracle Cloud EPM — Demo",
+        href: "https://www.youtube.com/watch?v=59TXV7iNxwU",
+      },
+      {
+        label: "Predictive Insights in Oracle Fusion Cloud EPM — Demo",
+        href: "https://www.youtube.com/watch?v=HSxSeiArTH0",
+      },
+      {
+        label: "Narrative Reporting in Oracle Fusion Cloud EPM — Demo",
+        href: "https://www.youtube.com/watch?v=GQGuCZtv1Bc",
+      },
+    ],
+    tags: ["AI Agent Studio", "EPM Assistants", "Predictive Cash Forecasting", "26.04"],
+  },
+
+  {
     id: "2026-04-28-pm",
     date: "2026-04-28",
     title: "26.04 deep dive — AI Reconciliation Agent + Analytics Images",
