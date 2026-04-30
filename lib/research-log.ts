@@ -21,6 +21,55 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-04-30-am",
+    date: "2026-04-30",
+    title: "26.04 hardening: SFTP key auth, audit reports, Essbase block analysis",
+    summary:
+      "Two days into the 26.04 cycle the bigger-than-it-looks updates are showing up in EPM Automate / REST. Today's pass focuses on the platform plumbing that automation teams actually live in.",
+    bullets: [
+      "copyFromSFTP / copyToSFTP — both the EPM Automate command and the REST API now support key-based auth (public key / cert) so SFTP servers that disabled passwords aren't a blocker anymore.",
+      "groupAssignmentAuditReport now accepts a date range, so you can pull a clean delta of group-membership changes for SOX evidence instead of dumping the full history.",
+      "essbaseBlockAnalysisReport adds a 'percentage of cells close to zero' figure — easier to spot sparsity that's eating your cube without contributing data.",
+      "Retry logic and integration workflows in EPM Automate were tightened to fit DevOps pipeline patterns (CI runners, scheduled jobs).",
+      "Reminder from yesterday's deeper read: 26.04 is primarily an Essbase 21c fix release for Planning, FCCS, FreeForm, PCM, and Tax — re-validate cubes after the test pod refresh.",
+      "AI Agent Studio + EPM Assistants remain the headline 'new surface' across the release — REST changes above are what makes those agents reliable in production.",
+    ],
+    sources: [
+      {
+        label: "Oracle Readiness — SFTP Key-based Authentication (26.04)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44368.htm",
+      },
+      {
+        label: "NZOUG — 26.04 Feature Highlights: EPM Automate & REST APIs Strengthened",
+        href: "https://www.nzoug.org/post/oracle-epm-cloud-26-04-feature-highlights-april-2026-epm-automate-rest-apis-strengthened",
+      },
+      {
+        label: "Oracle Docs — EPM Cloud Monthly Release Schedule FAQ",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmfq/",
+      },
+      {
+        label: "Cloud Customer Connect — Monthly updates resume from 26.04",
+        href: "https://community.oracle.com/customerconnect/discussion/937812/epm-cloud-monthly-updates-will-resume-from-april-2026-26-04",
+      },
+      {
+        label: "Random EPM Notes — April 2026 Updates",
+        href: "https://randomepmnotes.com/2026/03/25/epm-april-2026-updates/",
+      },
+    ],
+    videos: [
+      {
+        label: "Oracle EPM Tutorials — official YouTube channel",
+        href: "https://www.youtube.com/@OracleEpmBiTutorials",
+      },
+      {
+        label: "Demo Month: EPM Cloud Framework",
+        href: "https://www.youtube.com/watch?v=L_OLl_WlVw8",
+      },
+    ],
+    tags: ["26.04", "EPM Automate", "REST API", "SFTP", "Essbase 21c"],
+  },
+
+  {
     id: "2026-04-29-am",
     date: "2026-04-29",
     title: "EPM Assistants + AI Agent Studio: a closer look",
