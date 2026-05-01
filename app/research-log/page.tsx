@@ -33,6 +33,10 @@ export default function ResearchLogPage() {
         to a source — treat the bullets as a starting point, not gospel.
       </p>
 
+      <p className="mt-3 text-[12px] font-mono uppercase tracking-[0.14em] text-[var(--text-subtle)]">
+        {entries.length} {entries.length === 1 ? "entry" : "entries"} logged
+      </p>
+
       <ResearchLogList entries={entries} />
 
       <div className="mt-16 border-t border-[var(--border)] pt-8">

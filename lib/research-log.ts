@@ -21,6 +21,63 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-05-01",
+    date: "2026-05-01",
+    title: "Looking at 26.05: mandatory Groovy cutover + ARCS Enterprise Journals tightening",
+    summary:
+      "First day of May. 26.05 hits test pods next Friday and the Groovy 'stricter validation' update — the one that's been delayed three times — is finally locked in for this cycle. Today's pass also pulls together the ARCS journal story since several customers asked about it on Customer Connect.",
+    bullets: [
+      "Mandatory Groovy engine update is now scheduled for 26.05 — originally promised for 25.11, slipped to 25.12, then 26.01, now landing in May. Service Admins should already have a banner in their environments; admins who haven't validated rules will see breakage.",
+      "The cumulative carry-over still applies: 25.12 → 26.04 features for ARCS, EDM and Narrative Reporting that were quiet during the pause are folded into 26.05 environments.",
+      "ARCS Transaction Matching can now export both sides of an adjustment as a dual-sided journal entry, ready to import into the ERP — combined with Enterprise Journals integration, that closes the manual posting gap most teams complained about.",
+      "Reconciliation Compliance ↔ Enterprise Journals mapping means preparers stop hand-keying journal headers; Admin defines the mapping once, system fills it from the rec.",
+      "Random EPM Notes flagged that anything still using the old SOAP / classic auth on EPM Automate should move now — 26.04 modernized the stack and 26.05 will continue trimming legacy paths.",
+      "26.05 Readiness drop is expected this week per Oracle's standard cadence (test = first Friday, prod = third Friday).",
+      "No public 26.05 'What's New' yet — bookmarked the readiness landing page and will diff it on next run.",
+    ],
+    sources: [
+      {
+        label: "Oracle Readiness — EPM landing page (where 26.05 will appear)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm.html",
+      },
+      {
+        label: "Oracle Readiness — Mandatory Groovy Update (originally 26.01, now 26.05)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2025/epm-nov25/25nov-epm-wn-f41970.htm",
+      },
+      {
+        label: "Oracle Docs — Monthly Release Schedule FAQ",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmfq/",
+      },
+      {
+        label: "Oracle Docs — Using EPM Enterprise Journals With Account Reconciliation",
+        href: "https://docs.oracle.com/en/cloud/saas/account-reconcile-cloud/adarc/admin_enterprise_journals_with_arcs.html",
+      },
+      {
+        label: "Oracle Docs — ARCS Transaction Matching Workflow",
+        href: "https://docs.oracle.com/en/cloud/saas/account-reconcile-cloud/raarc/admin_trans_match_workflow.html",
+      },
+      {
+        label: "Oracle Blog — Faster Transaction Matching through Automation",
+        href: "https://blogs.oracle.com/futurestate/transaction-matching-in-minutes",
+      },
+      {
+        label: "Random EPM Notes — EPM Updates Delayed Until April 2026 (context)",
+        href: "https://randomepmnotes.com/2026/01/24/epm-updates-delayed-until-april-2026/",
+      },
+    ],
+    videos: [
+      {
+        label: "Oracle EPM Tutorials — official YouTube channel",
+        href: "https://www.youtube.com/channel/UCT0Y4dU-u-ZedfVqVDeVBpw",
+      },
+      {
+        label: "Oracle Cloud EPM — official channel (release deep dives)",
+        href: "https://www.youtube.com/channel/UCOdd5RpKwqzri0Y2be-MjSQ",
+      },
+    ],
+    tags: ["26.05", "Groovy", "ARCS", "Enterprise Journals", "Customer Connect"],
+  },
+  {
     id: "2026-04-30-am",
     date: "2026-04-30",
     title: "26.04 hardening: SFTP key auth, audit reports, Essbase block analysis",

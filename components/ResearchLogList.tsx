@@ -81,12 +81,19 @@ export default function ResearchLogList({ entries }: { entries: LogEntry[] }) {
         {visible.map((entry, idx) => (
           <article
             key={entry.id ?? entry.date}
-            className="border-t border-[var(--border)] pt-10"
+            id={entry.id ?? entry.date}
+            className="border-t border-[var(--border)] pt-10 scroll-mt-24"
           >
             <header className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
               <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)]">
                 <CalendarDays className="h-3.5 w-3.5" aria-hidden />
-                <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+                <a
+                  href={`#${entry.id ?? entry.date}`}
+                  className="hover:text-[var(--text)] transition-colors"
+                  aria-label={`Permalink to ${formatDate(entry.date)} entry`}
+                >
+                  <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+                </a>
               </div>
               {idx === 0 && activeTag === null && (
                 <span className="rounded-full bg-[var(--primary)]/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.14em] text-[var(--primary)]">
