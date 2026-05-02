@@ -21,6 +21,67 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-05-02",
+    date: "2026-05-02",
+    title: "26.04 lands in prod + three new Agentic AI REST endpoints worth knowing",
+    summary:
+      "26.04 hit production environments April 17, so today's pass is a post-deploy sweep: what actually shipped, where the Agentic AI surface area is now, and what to expect when 26.05 readiness drops next week. Smart View 26.100 release window is open (April/May).",
+    bullets: [
+      "26.04 is live in prod (April 17 production cutover). It's mostly an Essbase 21c stability release for FCCS, FreeForm, Planning, PCMCS and Tax Reporting — combined with a cumulative ARCS / EDM / Narrative Reporting feature roll-up from 25.12–26.03.",
+      "Three new REST APIs for Agentic AI interactions are now generally available: Get Application Summary, Export Data, and Export Form Data — these are the building blocks for AI Agent Studio assistants to read EPM state.",
+      "AI Agent Studio now ships preconfigured 'EPM Assistants' as JSON definitions — drop them in to spin up an agent that talks to a Cloud EPM service via REST without writing API plumbing yourself.",
+      "Smart View 26.100 release window is open. Compatible with 26.04 and backward-compatible with 25.10 / 25.11. Native ad-hoc mode is fully gone now (was deprecated end of 2024) — anything still set to Native needs migrating to Standard.",
+      "ARCS Transaction Matching: new filtering on adjustment + support attributes, plus journal-column filtering inside the matching workflow. Small but meaningful for teams doing high-volume matching.",
+      "Oracle Integration 3 published an updated 'Using Agentic AI' guide (G41284-07, April 2026) — useful companion read for anyone wiring EPM agents into broader OIC flows.",
+      "26.05 readiness drop expected this week per Oracle's standard cadence. No change to the prediction from yesterday: 26.05 is the cycle where mandatory Groovy validation finally lands.",
+    ],
+    sources: [
+      {
+        label: "Oracle Readiness — EPM April 2026 (26.04) What's New",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/index.html",
+      },
+      {
+        label: "Oracle Readiness — Using EPM Assistants with AI Agent Studio (26.04)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44390.htm",
+      },
+      {
+        label: "NZOUG — 26.04 Feature Highlights: EPM Automate & REST APIs Strengthened",
+        href: "https://www.nzoug.org/post/oracle-epm-cloud-26-04-feature-highlights-april-2026-epm-automate-rest-apis-strengthened",
+      },
+      {
+        label: "Random EPM Notes — EPM April 2026 Updates breakdown",
+        href: "https://randomepmnotes.com/2026/03/25/epm-april-2026-updates/",
+      },
+      {
+        label: "Oracle Docs — REST APIs for Oracle Fusion Cloud EPM (TOC)",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/prest/toc.htm",
+      },
+      {
+        label: "Oracle Docs — Cloud EPM Features with AI",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmai/",
+      },
+      {
+        label: "Oracle Docs — Using Agentic AI in Oracle Integration 3 (G41284-07, April 2026)",
+        href: "https://docs.oracle.com/en/cloud/paas/application-integration/aiagents/using-agentic-ai-oracle-integration-3.pdf",
+      },
+      {
+        label: "Oracle Cloud Customer Connect — EPM Cloud Monthly Updates resume from 26.04",
+        href: "https://community.oracle.com/customerconnect/discussion/937812/epm-cloud-monthly-updates-will-resume-from-april-2026-26-04",
+      },
+    ],
+    videos: [
+      {
+        label: "Oracle EPM Tutorials — official YouTube channel (26.04 walkthroughs land here)",
+        href: "https://www.youtube.com/channel/UCT0Y4dU-u-ZedfVqVDeVBpw",
+      },
+      {
+        label: "Oracle Cloud EPM — official channel",
+        href: "https://www.youtube.com/channel/UCOdd5RpKwqzri0Y2be-MjSQ",
+      },
+    ],
+    tags: ["26.04", "Agentic AI", "REST API", "Smart View", "ARCS", "AI Agent Studio"],
+  },
+  {
     id: "2026-05-01",
     date: "2026-05-01",
     title: "Looking at 26.05: mandatory Groovy cutover + ARCS Enterprise Journals tightening",
