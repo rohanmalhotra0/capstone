@@ -21,6 +21,71 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-05-03",
+    date: "2026-05-03",
+    title: "Pre-26.05 readiness watch — Groovy validation cliff, Planning AI Agent demo making the rounds",
+    summary:
+      "Sunday pass while waiting for the 26.05 readiness drop. The headline is still the mandatory Groovy engine validation landing in 26.05 — anyone with custom Groovy business rules should be running a dry-run pass this week. Side stories: Oracle's official Planning AI Agent demo video is the clearest 'what it actually looks like' artifact for non-developers, and the Fusion 26A roadmap continues to telegraph two new EPM agents plus more GenAI surfaces.",
+    bullets: [
+      "Mandatory Groovy validation is still confirmed for 26.05. Oracle has already pushed a Service Administrator banner to impacted environments. Action item: pre-validate every custom Groovy business rule now — rules that compile today can fail post-upgrade because the new engine is stricter.",
+      "26.05 readiness drop is expected this week (typical cadence: ~2 weeks before the first Friday production cutover). Watch the readiness index page rather than waiting for an email.",
+      "Oracle's Planning AI Agent demo (Jan 2026 YouTube post) remains the best 'show me' artifact: conversational forecast variance explanation, what-if modeling, and natural-language root-cause analysis live inside Planning. Worth a 6-minute watch before any AI Agent Studio reading.",
+      "Fusion 26A roadmap reiterates: two new EPM agents + expanded GenAI capabilities are queued. AI Agent Studio is GA on the Fusion side; EPM-side timing for full Studio parity is still not officially confirmed despite the EPM Assistants JSON definitions that shipped in 26.04.",
+      "Smart View 26.100 release window is still open (April/May). Compatibility envelope: 26.04 forward, 25.10 / 25.11 backward. Native ad-hoc remains fully removed — any holdouts on Native need to migrate to Standard before upgrading.",
+      "ARCS continues to get small but high-leverage matching upgrades — adjustment + support attribute filters and journal-column filtering inside the Transaction Matching workflow are the bits worth flagging to a close-team lead.",
+      "No new official 'What's New' page for 26.05 yet on docs.oracle.com — 26.04 is still the latest published readiness doc as of today. Will diff against the new page the moment it lands.",
+    ],
+    sources: [
+      {
+        label: "Oracle Readiness — EPM index (watch this for the 26.05 drop)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm.html",
+      },
+      {
+        label: "Oracle Readiness — EPM April 2026 (26.04) What's New (current latest)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/index.html",
+      },
+      {
+        label: "Oracle Docs — EPM Monthly Release Schedule FAQ",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmfq/",
+      },
+      {
+        label: "Oracle Fusion Insider — 26A roadmaps: new AI agents for ERP, HCM, SCM, CX",
+        href: "https://blogs.oracle.com/fusioninsider/roadmaps",
+      },
+      {
+        label: "Oracle Docs — Cloud EPM Features with AI",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmai/",
+      },
+      {
+        label: "James & Monroe — AI in Oracle EPM and ERP: What's Real in 2026",
+        href: "https://jamesandmonroe.com/blog/oracle-is-delivering-ai-as-part-of-the-oracle-fusion-cloud-applications-suite-quarterly-updates-and-that-means-exciting-changes-are-in-store-for-oracle-cloud-epm-and-erp/",
+      },
+      {
+        label: "EPMI — Oracle AI Agent Studio Product Roadmap",
+        href: "https://epmi.com/blog/oracle-ai-agent-studio-product-roadmap/",
+      },
+      {
+        label: "Oracle Cloud Customer Connect — Monthly updates resume from 26.04",
+        href: "https://community.oracle.com/customerconnect/discussion/937812/epm-cloud-monthly-updates-will-resume-from-april-2026-26-04",
+      },
+    ],
+    videos: [
+      {
+        label: "Planning AI Agent in Oracle Cloud EPM: Demo (Jan 2026, ~6 min)",
+        href: "https://www.youtube.com/watch?v=59TXV7iNxwU",
+      },
+      {
+        label: "Oracle Fusion Insider — AI Agent Studio in action (demo)",
+        href: "https://blogs.oracle.com/fusioninsider/see-oracle-ai-agent-studio-in-action-demo-video",
+      },
+      {
+        label: "Oracle EPM Tutorials — official YouTube channel",
+        href: "https://www.youtube.com/channel/UCT0Y4dU-u-ZedfVqVDeVBpw",
+      },
+    ],
+    tags: ["26.05", "Groovy", "AI Agent Studio", "Planning Agent", "Smart View", "ARCS"],
+  },
+  {
     id: "2026-05-02",
     date: "2026-05-02",
     title: "26.04 lands in prod + three new Agentic AI REST endpoints worth knowing",
