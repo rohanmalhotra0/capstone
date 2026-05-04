@@ -15,6 +15,7 @@ function formatDate(iso: string) {
 
 export default function ResearchLogList({ entries }: { entries: LogEntry[] }) {
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
   const allTags = useMemo(() => {
     const seen = new Map<string, number>();
@@ -27,14 +28,59 @@ export default function ResearchLogList({ entries }: { entries: LogEntry[] }) {
   }, [entries]);
 
   const visible = useMemo(() => {
-    if (!activeTag) return entries;
-    return entries.filter((e) => e.tags?.includes(activeTag));
-  }, [entries, activeTag]);
+    const q = query.trim().toLowerCase();
+    return entries.filter((e) => {
+      if (activeTag && !e.tags?.includes(activeTag)) return false;
+      if (!q) return true;
+      const haystack = [
+        e.title,
+        e.summary,
+        ...(e.bullets ?? []),
+        ...(e.tags ?? []),
+        ...(e.sources ?? []).map((src) => src.label),
+        ...(e.videos ?? []).map((v) => v.label),
+      ]
+        .join(" \n ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [entries, activeTag, query]);
 
   return (
     <>
+      <div className="mt-10">
+        <label className="relative block">
+          <span className="sr-only">Search the research log</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-subtle)]"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search entries — e.g. Groovy, ARCS, AI Agent…"
+            className="w-full rounded-md border border-[var(--border)] bg-transparent py-2 pl-9 pr-3 text-[14px] text-[var(--text)] placeholder:text-[var(--text-subtle)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+          />
+        </label>
+        {query && (
+          <p className="mt-2 text-[11px] font-mono uppercase tracking-[0.14em] text-[var(--text-subtle)]">
+            {visible.length} match{visible.length === 1 ? "" : "es"} for &ldquo;{query}&rdquo;
+          </p>
+        )}
+      </div>
       {allTags.length > 0 && (
-        <div className="mt-10 flex flex-wrap items-center gap-2">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="mr-1 text-[11px] font-mono uppercase tracking-[0.16em] text-[var(--text-subtle)]">
             Filter
           </span>
@@ -74,8 +120,18 @@ export default function ResearchLogList({ entries }: { entries: LogEntry[] }) {
       <div className="mt-12 space-y-14">
         {visible.length === 0 && (
           <p className="text-[14px] text-[var(--text-muted)]">
-            No entries tagged{" "}
-            <span className="font-mono">{activeTag}</span> yet.
+            No entries match
+            {query ? (
+              <>
+                {" "}&ldquo;<span className="font-mono">{query}</span>&rdquo;
+              </>
+            ) : null}
+            {activeTag ? (
+              <>
+                {" "}tagged <span className="font-mono">{activeTag}</span>
+              </>
+            ) : null}
+            .
           </p>
         )}
         {visible.map((entry, idx) => (

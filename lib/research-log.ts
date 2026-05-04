@@ -21,6 +21,72 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-05-04",
+    date: "2026-05-04",
+    title: "26.05 readiness window — Groovy validator on the clock, GenAI gating tightens for July",
+    summary:
+      "Monday sweep. 26.05 readiness drop is imminent (typical cadence puts it within this week). Two hard deadlines now sit in the calendar: (1) the mandatory Groovy engine cutover that has been bouncing across releases is still pinned to 26.05, and (2) Oracle has confirmed that environments not on 26.04 or later by end of July 2026 lose access to Generative AI features entirely. Anyone still on a 25.x release should treat 26.05 as a forced upgrade window.",
+    bullets: [
+      "GenAI gating: Beginning with the 26.07 update, Oracle will provide Generative AI functionality only for environments on the 26.04 release or later. Environments stuck on older releases by end of July 2026 lose Generative AI access — Notes Summarization, Narrative Reporting GenAI commentary, IPM Insights narrative summaries all go dark on those tenants. Treat this as the de-facto deadline for the 26.04+ upgrade.",
+      "Groovy engine cutover is still planned for 26.05 (May 2026). The new engine is stricter — rules that compile today can fail post-upgrade. The Groovy Script Validator (shipped 25.08) is the right pre-flight tool. New requirement: every script must start with a /*RTPS: ... */ comment listing all Runtime Prompts (or an empty one if none). EPM Automate skipUpdate buys up to 3 months of delay if you need it.",
+      "IPM Insights now generates GenAI narrative summaries for the Account dimension (shipped 26.04 readiness). This is the first IPM surface that uses the new EPM Assistants pattern end-to-end — useful as a reference implementation when designing your own AI Agent Studio assistants.",
+      "Predictive Cash Forecasting picked up direct Oracle Cloud ERP integration in 26.04 — forecast models can now pull real-time AR/AP and bank balances rather than waiting for an export. Worth scoping if your treasury team is still living off Smart View pulls.",
+      "Smart View 26.100 release window is open through May. Compatibility envelope: forward to 26.04 / 26.05, backward to 25.10 / 25.11. Native ad-hoc mode is fully gone — anything still configured Native must be migrated to Standard before the next upgrade.",
+      "Narrative Reporting in 26.04 added inline PDF viewing inside the report runtime, plus analytics images that embed live charts in narratives — meaningful for board books and audit packets where the chart used to be a pasted screenshot.",
+      "ARCS Transaction Matching keeps getting incremental wins: new filtering on adjustment + support attributes and journal-column filtering inside the matching workflow. Small UX upgrades but high leverage for high-volume close teams.",
+      "Oracle Recognized as a Leader in the 2025 Gartner MQ for Financial Planning Software (Feb 2026 announcement). Useful citation for capstone framing on why EPM keeps mattering.",
+    ],
+    sources: [
+      {
+        label: "Oracle Readiness — EPM index (watch for 26.05 drop)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm.html",
+      },
+      {
+        label: "Oracle Readiness — EPM April 2026 (26.04) What's New",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/index.html",
+      },
+      {
+        label: "Oracle Readiness — IPM Insights: GenAI narrative summaries for Account dimension",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f42488.htm",
+      },
+      {
+        label: "Oracle Readiness — Using EPM Assistants with AI Agent Studio",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44390.htm",
+      },
+      {
+        label: "Oracle Docs — Cloud EPM Features with AI",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmai/",
+      },
+      {
+        label: "The EPM Lab — Groovy Engine Upgrade & Validator Deep Dive",
+        href: "https://theepmlab.com/epm-lab-groovy-engine-upgrade-validator-deep-dive/",
+      },
+      {
+        label: "Random EPM Notes — EPM April 2026 Updates breakdown",
+        href: "https://randomepmnotes.com/2026/03/25/epm-april-2026-updates/",
+      },
+      {
+        label: "Oracle press — Recognized as Leader in 2025 Gartner MQ for Financial Planning Software",
+        href: "https://www.oracle.com/news/announcement/oracle-recognized-as-a-leader-2025-gartner-mq-financial-planning-software-2026-02-19/",
+      },
+    ],
+    videos: [
+      {
+        label: "Planning AI Agent in Oracle Cloud EPM: Demo (Jan 2026, ~6 min)",
+        href: "https://www.youtube.com/watch?v=59TXV7iNxwU",
+      },
+      {
+        label: "Oracle EPM Tutorials — official YouTube channel",
+        href: "https://www.youtube.com/channel/UCT0Y4dU-u-ZedfVqVDeVBpw",
+      },
+      {
+        label: "Oracle Cloud EPM — official channel",
+        href: "https://www.youtube.com/channel/UCOdd5RpKwqzri0Y2be-MjSQ",
+      },
+    ],
+    tags: ["26.05", "GenAI", "Groovy", "IPM Insights", "Smart View", "ARCS", "Predictive Cash"],
+  },
+  {
     id: "2026-05-03",
     date: "2026-05-03",
     title: "Pre-26.05 readiness watch — Groovy validation cliff, Planning AI Agent demo making the rounds",
