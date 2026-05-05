@@ -21,6 +21,76 @@ export type LogEntry = {
 
 export const researchLog: LogEntry[] = [
   {
+    id: "2026-05-05",
+    date: "2026-05-05",
+    title: "26.05 watch + AI Agent Studio momentum — what's actually shipping vs. what's still readiness-only",
+    summary:
+      "Tuesday sweep. Oracle's Readiness page still hasn't published the 26.05 What's New file as of this morning, but the 26.04 cumulative drop is now in production and giving a clearer picture of which AI features are real vs. demoware. The headline: AI Agent Studio + EPM Assistants is the connective tissue that ties IPM Insights GenAI summaries, Narrative Reporting commentary, and the Planning Agent demo together — they are not separate products, they all share the same Assistant pattern. For the capstone, this means a single architecture diagram can cover the whole AI surface area.",
+    bullets: [
+      "26.04 is live in prod tenants (rolled out April 17). 26.05 readiness page has not dropped yet — keep watching docs.oracle.com/en/cloud/saas/readiness/epm.html. Notable: 26.04 What's New file 26apr-epm-wn-f44316 covers cumulative changes from 25.12 → 26.03, so anyone who skipped the paused months should diff against that, not against 25.11.",
+      "AI Agent Studio + EPM Assistants pattern: Oracle ships preconfigured JSON Assistant definitions you import into AI Agent Studio. Each Assistant talks to Cloud EPM via REST APIs — same plumbing whether it is Planning, FCCS, ARCS, or Narrative Reporting. The April 2026 Readiness page (26apr-epm-wn-f44390) is the canonical reference for the pattern.",
+      "GenAI Narrative Summaries for IPM Insights now run at the Account dimension level — they evaluate parent + children for the POV and call out which child is driving the parent variance. This is the cleanest example of an EPM Assistant in production today.",
+      "Narrative Reporting GenAI got a quieter quality-of-life win in 26.04: AutoTextSummary can now reference a saved Criteria Definition rather than restating parameters in every function call. Less brittle templates, fewer broken reports after dimension changes.",
+      "Predictive Cash Forecasting → Oracle Cloud ERP direct integration: confirmed shipped, no longer requires the legacy AR/AP export. Big quality-of-life unlock for treasury — moves cash forecast from weekly Smart View pulls to live ERP pulls.",
+      "ARCS keeps incrementing: 26.04 added journal-column filtering inside Transaction Matching plus filter expressions on adjustment + support attributes. Small per-feature, but stack them up over a quarter and the matching workflow looks meaningfully different from 25.x.",
+      "Smart View 26.100 still in its release window through May — backward compatibility 25.10/25.11, forward 26.04/26.05. Reminder for the doc page: Native ad-hoc mode is fully retired, all clients must be Standard before the next upgrade.",
+      "Tomorrow's watchlist: 26.05 What's New file going live, any updated guidance on the Groovy engine cutover (still pinned to 26.05), and the GenAI gating timeline (26.04+ required by end of July 2026 to keep GenAI access).",
+    ],
+    sources: [
+      {
+        label: "Oracle Readiness — EPM index (watch for 26.05 drop)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm.html",
+      },
+      {
+        label: "Oracle Readiness — EPM April 2026 (26.04) What's New (cumulative 25.12→26.03)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44316.htm",
+      },
+      {
+        label: "Oracle Readiness — Using EPM Assistants with AI Agent Studio",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f44390.htm",
+      },
+      {
+        label: "Oracle Readiness — IPM Insights GenAI narrative summaries (Account dimension)",
+        href: "https://docs.oracle.com/en/cloud/saas/readiness/epm/2026/epm-apr26/26apr-epm-wn-f42488.htm",
+      },
+      {
+        label: "Oracle Docs — Cloud EPM Features with AI",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/epmai/",
+      },
+      {
+        label: "Oracle Docs — Enabling Generative AI in Narrative Reporting",
+        href: "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/dmepr/enabling_genAI_in_nr.html",
+      },
+      {
+        label: "Oracle FusionInsider blog — How AI agents will work in your ERP and EPM",
+        href: "https://blogs.oracle.com/fusioninsider/see-how-ai-agents-will-work-in-your-erp-and-epm",
+      },
+      {
+        label: "EPM Cloud Customer Connect — 26.04 monthly updates resume thread",
+        href: "https://community.oracle.com/customerconnect/discussion/937812/epm-cloud-monthly-updates-will-resume-from-april-2026-26-04",
+      },
+      {
+        label: "Random EPM Notes — April 2026 Updates rundown",
+        href: "https://randomepmnotes.com/2026/03/25/epm-april-2026-updates/",
+      },
+      {
+        label: "James & Monroe — AI in Oracle EPM and ERP: What's Real in 2026",
+        href: "https://jamesandmonroe.com/blog/oracle-is-delivering-ai-as-part-of-the-oracle-fusion-cloud-applications-suite-quarterly-updates-and-that-means-exciting-changes-are-in-store-for-oracle-cloud-epm-and-erp/",
+      },
+    ],
+    videos: [
+      {
+        label: "Planning AI Agent in Oracle Cloud EPM: Demo (Jan 2026, ~6 min)",
+        href: "https://www.youtube.com/watch?v=59TXV7iNxwU",
+      },
+      {
+        label: "Oracle EPM Tutorials — official YouTube channel",
+        href: "https://www.youtube.com/channel/UCT0Y4dU-u-ZedfVqVDeVBpw",
+      },
+    ],
+    tags: ["26.05", "26.04", "AI Agent Studio", "EPM Assistants", "IPM Insights", "Narrative Reporting", "Smart View"],
+  },
+  {
     id: "2026-05-04",
     date: "2026-05-04",
     title: "26.05 readiness window — Groovy validator on the clock, GenAI gating tightens for July",
